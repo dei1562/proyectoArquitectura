@@ -3,11 +3,11 @@ export const environment = {
   // fbAppId: 186848361921511,
   googleWebClientId: '401245627689-ke4oci7bc8440anmpo4dms1od5keoome.apps.googleusercontent.com',
   firebase: {
-    apiKey: "AIzaSyATBlD3709OkzGzNq5_a1Db2jk8-SBPDlg",
-    authDomain: "thinking-return-94920.firebaseapp.com",
-    databaseURL: "https://thinking-return-94920.firebaseio.com",
-    projectId: "thinking-return-94920",
-    storageBucket: "thinking-return-94920.appspot.com",
-    messagingSenderId: "401245627689"
+    apiKey: "AIzaSyAbuxb47it3yjAGVjvsKaC7ou6g_UJI8oE",
+    authDomain: "lavanderia-51c33.firebaseapp.com",
+    databaseURL: "https://lavanderia-51c33.firebaseio.com",
+    projectId: "lavanderia-51c33",
+    storageBucket: "lavanderia-51c33.appspot.com",
+    messagingSenderId: "792268208942"
   }
 };
