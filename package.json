@@ -59,11 +59,12 @@
     "plugins": {
       "cordova-plugin-device": {},
       "cordova-plugin-facebook4": {
-        "APP_ID": "186848361921511",
-        "APP_NAME": "myApplication"
+        "APP_ID": "340579983364064",
+        "APP_NAME": "Lavanderia"
       },
       "cordova-plugin-googleplus": {
-        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.401245627689-mcupb7o4sra8p6jqnlhe17d8b2rf4du6"
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.401245627689-mcupb7o4sra8p6jqnlhe17d8b2rf4du6",
+        "PLAY_SERVICES_VERSION": "11.8.0"
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-ionic-webview": {},
