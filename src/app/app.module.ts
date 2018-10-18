@@ -16,6 +16,7 @@ import { LavadoraProvider } from '../providers/lavadora/lavadora';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environment/environment';
 
 import { Facebook } from '@ionic-native/facebook';
@@ -35,6 +36,7 @@ import { TwitterConnect } from '@ionic-native/twitter-connect';
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFireDatabaseModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
