@@ -1,0 +1,45 @@
+<ion-header>
+
+  <ion-navbar>
+      <ion-title>{{ titulo }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-item>
+      <ion-label>Marca</ion-label>
+      <ion-input [(ngModel)]="lavadora.marca"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>Peso</ion-label>
+      <ion-input [(ngModel)]="lavadora.weight"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Precio Hora</ion-label>
+    <ion-input [(ngModel)]="lavadora.modelo"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>Estado</ion-label>
+      <ion-input [(ngModel)]="lavadora.serial"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label>¿Industrial?</ion-label>
+      <ion-input [(ngModel)]="lavadora.color"></ion-input>
+  </ion-item>  
+
+  <ion-item>
+      <ion-label>Foto</ion-label>
+  </ion-item>
+  <img [src]="lavadora.foto" style="width: 50%;" [hidden]="lavadora.foto == null">
+
+  <button ion-button block clear (click)="addLavadora(lavadora)" *ngIf="flagButton === false">Guardar</button>
+  <button ion-button block clear (click)="updateLavadora(lavadora)" *ngIf="flagButton === true">Actualizar</button>
+  <button ion-button block clear (click)="removeLavadora(lavadora)" *ngIf="flagButton === true">Eliminar</button>
+
+</ion-content>

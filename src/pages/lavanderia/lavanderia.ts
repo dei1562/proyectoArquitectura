@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { Observable } from 'rxjs/Observable'
+import { LavadoraFormPage } from '../lavadora-form/lavadora-form';
 
 import { FirebaseLavadoraModel } from '../../models/lavadora.model';
 import { LavadoraProvider } from '../../providers/lavadora/lavadora';
@@ -12,20 +12,24 @@ import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 })
 export class LavanderiaPage {
 
-  listLavadoras: Observable<FirebaseLavadoraModel[]>;
+  listLavadoras: Array<any>;
+
+  pushPage = LavadoraFormPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private lavadoraProvider: LavadoraProvider) {
+  }
 
-    this.listLavadoras = this.lavadoraProvider.getLavadoras()
-                          .snapshotChanges()
-                          .map(
-                            changes => {
-                              return changes.map(c => ({
-                                key: c.payload.key, ...c.payload.val()
-                              }))
-                            }
-                          );
+  ionViewWillEnter(){
+      this.getData();
+  }
+
+  getData() {
+    this.lavadoraProvider.getLavadoras()
+    .then(lavadoras => {
+      console.log("lavadoras", lavadoras);
+      this.listLavadoras = lavadoras;
+    });
   }
 
   ionViewDidLoad() {

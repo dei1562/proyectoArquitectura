@@ -5,7 +5,7 @@
       </ion-title>
 
       <ion-buttons end>
-          <button navPush="lavadoraFormPage" ion-button>
+          <button [navPush]="pushPage" ion-button>
             <ion-icon name="add"></ion-icon>
         </button>
       </ion-buttons>
@@ -15,12 +15,13 @@
 <ion-content padding>
   <ion-list>
       <ion-list-header>Lavadoras</ion-list-header>
-      <ion-item *ngFor="let lavadora of listLavadoras | async" detail-push navPush="lavadoraFormPage" [navParams]={lavadora:lavadora}>
+      <ion-item *ngFor="let lavadora of listLavadoras" detail-push [navPush]="pushPage" [navParams]={lavadora:lavadora}>
           <ion-thumbnail item-start>
               <img [src]="lavadora.foto" [hidden]="lavadora.foto == null">
           </ion-thumbnail>
-          <h1>{{lavadora.name}}</h1>
+          <h1>{{lavadora.marca}}</h1>
           <p>Peso: {{lavadora.weight}}</p>
+          <p>Precio Hora: {{lavadora.price}}</p>
           <p *ngIf="lavadora.bigLoad === true">Industrial: Si</p>
           <p *ngIf="lavadora.bigLoad === false">Industrial: No</p>
       </ion-item>

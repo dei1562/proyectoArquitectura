@@ -1,9 +1,10 @@
 export class FirebaseLavadoraModel {
     key ?: string;
-    name: string;
+    marca: string;
     weight: number;
     status: boolean;
-    bigLoad: boolean;
+    industrial: boolean;
+    price: number;
     image: string;
 }
   

@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { UserPage} from '../pages/user/user';
 import { LavanderiaPage } from '../pages/lavanderia/lavanderia';
+import { LavadoraFormPage } from '../pages/lavadora-form/lavadora-form';
 
 import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
@@ -16,7 +17,7 @@ import { LavadoraProvider } from '../providers/lavadora/lavadora';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environment/environment';
 
 import { Facebook } from '@ionic-native/facebook';
@@ -29,14 +30,15 @@ import { TwitterConnect } from '@ionic-native/twitter-connect';
     LoginPage,
     RegisterPage,
     UserPage,
-    LavanderiaPage
+    LavanderiaPage,
+    LavadoraFormPage,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -44,7 +46,8 @@ import { TwitterConnect } from '@ionic-native/twitter-connect';
     LoginPage,
     RegisterPage,
     UserPage,
-    LavanderiaPage
+    LavanderiaPage,
+    LavadoraFormPage,
   ],
   providers: [
     StatusBar,
