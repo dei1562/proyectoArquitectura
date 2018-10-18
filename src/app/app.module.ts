@@ -8,10 +8,11 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { UserPage} from '../pages/user/user';
-
+import { LavanderiaPage } from '../pages/lavanderia/lavanderia';
 
 import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
+import { LavadoraProvider } from '../providers/lavadora/lavadora';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -20,15 +21,14 @@ import { environment } from '../environment/environment';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
-import { LavadoraProvider } from '../providers/lavadora/lavadora';
-
 
 @NgModule({
   declarations: [
     MyApp,
     LoginPage,
     RegisterPage,
-    UserPage
+    UserPage,
+    LavanderiaPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +41,8 @@ import { LavadoraProvider } from '../providers/lavadora/lavadora';
     MyApp,
     LoginPage,
     RegisterPage,
-    UserPage
+    UserPage,
+    LavanderiaPage
   ],
   providers: [
     StatusBar,

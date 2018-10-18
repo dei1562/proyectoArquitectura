@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { RegisterPage } from '../register/register';
 import { UserPage } from '../user/user';
+import { LavanderiaPage } from '../lavanderia/lavanderia';
 import { AuthService } from '../core/auth.service';
 
 
@@ -34,7 +35,7 @@ export class LoginPage {
     this.authService.doLogin(value)
     .then(res => {
       console.log(res);
-      this.navCtrl.push(UserPage);
+      this.navCtrl.push(LavanderiaPage);
     }, err => {
       console.log(err);
       this.errorMessage = err.message;

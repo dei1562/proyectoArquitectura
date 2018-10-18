@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -11,7 +10,7 @@ export class LavadoraProvider {
   // Se crea el objeto donde seran almacenadas las lavadoras
   listLavadoras: Observable<FirebaseLavadoraModel[]>;
 
-  constructor(public http: HttpClient, public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase) {
 
     /*
       Se realiza la consulta a la base de datos en el constructor para tener 

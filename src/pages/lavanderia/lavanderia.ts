@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the LavanderiaPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { FirebaseLavadoraModel } from '../../models/lavadora.model';
+import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 
 @Component({
   selector: 'page-lavanderia',
@@ -14,7 +10,12 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class LavanderiaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  listLavadoras;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private lavadoraProvider: LavadoraProvider) {
+
+    this.listLavadoras = this.lavadoraProvider.getLavadoras();
   }
 
   ionViewDidLoad() {
