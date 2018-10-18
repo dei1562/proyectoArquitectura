@@ -20,6 +20,7 @@ import { environment } from '../environment/environment';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
+import { LavadoraProvider } from '../providers/lavadora/lavadora';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { TwitterConnect } from '@ionic-native/twitter-connect';
     AuthService,
     TwitterConnect,
     UserService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    LavadoraProvider
   ]
 })
 export class AppModule {}
