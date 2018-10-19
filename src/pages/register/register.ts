@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { AuthService } from '../core/auth.service';
 
-import { UserPage } from '../user/user';
+import { LavanderiaPage } from '../lavanderia/lavanderia';
 
 
 
@@ -46,7 +46,7 @@ export class RegisterPage {
   tryFacebookLogin(){
     this.authService.doFacebookLogin()
     .then((res) => {
-      this.navCtrl.push(UserPage);
+      this.navCtrl.push(LavanderiaPage);
     }, (err) => {
       this.errorMessage = err.message;
     });
@@ -55,7 +55,7 @@ export class RegisterPage {
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then((res) => {
-      this.navCtrl.push(UserPage);
+      this.navCtrl.push(LavanderiaPage);
     }, (err) => {
       this.errorMessage = err.message;
     });
@@ -64,7 +64,7 @@ export class RegisterPage {
   tryTwitterLogin(){
     this.authService.doTwitterLogin()
     .then((res) => {
-      this.navCtrl.push(UserPage);
+      this.navCtrl.push(LavanderiaPage);
     }, (err) => {
       this.errorMessage = err.message;
     });

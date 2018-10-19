@@ -44,7 +44,7 @@ export class LoginPage {
   tryFacebookLogin(){
     this.authService.doFacebookLogin()
     .then((res) => {
-      this.navCtrl.push(UserPage);
+      this.navCtrl.push(LavanderiaPage);
     }, (err) => {
       this.errorMessage = err.message;
     });
@@ -53,7 +53,7 @@ export class LoginPage {
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then((res) => {
-      this.navCtrl.push(UserPage);
+      this.navCtrl.push(LavanderiaPage);
     }, (err) => {
       this.errorMessage = err.message;
     });
@@ -62,7 +62,7 @@ export class LoginPage {
   tryTwitterLogin(){
     this.authService.doTwitterLogin()
     .then((res) => {
-      this.navCtrl.push(UserPage);
+      this.navCtrl.push(LavanderiaPage);
     }, (err) => {
       this.errorMessage = err.message;
     });
