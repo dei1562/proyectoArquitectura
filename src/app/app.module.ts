@@ -7,7 +7,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
-import { UserPage} from '../pages/user/user';
 import { LavanderiaPage } from '../pages/lavanderia/lavanderia';
 import { LavadoraFormPage } from '../pages/lavadora-form/lavadora-form';
 
@@ -31,7 +30,6 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     MyApp,
     LoginPage,
     RegisterPage,
-    UserPage,
     LavanderiaPage,
     LavadoraFormPage,
   ],
@@ -47,7 +45,6 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     MyApp,
     LoginPage,
     RegisterPage,
-    UserPage,
     LavanderiaPage,
     LavadoraFormPage,
   ],
