@@ -22,6 +22,8 @@
           <h1>{{lavadora.payload.doc.data().marca}}</h1>
           <p>Peso: {{lavadora.payload.doc.data().peso}}</p>
           <p>Precio Hora: {{lavadora.payload.doc.data().precio}}</p>
+          <p *ngIf="lavadora.payload.doc.data().estado === true">Estado: Activo</p>
+          <p *ngIf="lavadora.payload.doc.data().estado === false">Estado: Inactivo</p>
           <p *ngIf="lavadora.payload.doc.data().industrial === true">Industrial: Si</p>
           <p *ngIf="lavadora.payload.doc.data().industrial === false">Industrial: No</p>
       </ion-item>

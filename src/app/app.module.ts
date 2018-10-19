@@ -9,6 +9,8 @@ import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { LavanderiaPage } from '../pages/lavanderia/lavanderia';
 import { LavadoraFormPage } from '../pages/lavadora-form/lavadora-form';
+import { ReservasPage } from '../pages/reservas/reservas';
+import { ReservasFormModalPage } from '../pages/reservas-form-modal/reservas-form-modal';
 
 import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
@@ -32,6 +34,8 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     RegisterPage,
     LavanderiaPage,
     LavadoraFormPage,
+    ReservasPage,
+    ReservasFormModalPage,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +51,8 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     RegisterPage,
     LavanderiaPage,
     LavadoraFormPage,
+    ReservasPage,
+    ReservasFormModalPage,
   ],
   providers: [
     StatusBar,

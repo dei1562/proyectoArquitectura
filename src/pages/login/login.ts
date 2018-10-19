@@ -5,8 +5,9 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { RegisterPage } from '../register/register';
 import { LavanderiaPage } from '../lavanderia/lavanderia';
+import { ReservasPage } from '../reservas/reservas';
 import { AuthService } from '../core/auth.service';
-
+import { UserService } from '../core/user.service';
 
 @Component({
   selector: 'page-login',
@@ -20,7 +21,8 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController,
     public authService: AuthService,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public userService: UserService
   ) {}
 
   ionViewWillLoad(){
@@ -33,8 +35,12 @@ export class LoginPage {
   tryLogin(value){
     this.authService.doLogin(value)
     .then(res => {
-      console.log(res);
-      this.navCtrl.push(LavanderiaPage);
+
+      this.userService.getCurrentUser()
+      .then(reservas => {
+      });
+      
+      this.navCtrl.push(ReservasPage);
     }, err => {
       console.log(err);
       this.errorMessage = err.message;

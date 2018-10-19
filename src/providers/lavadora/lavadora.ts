@@ -9,19 +9,21 @@ import { FirebaseLavadoraModel } from '../../models/lavadora.model';
 @Injectable()
 export class LavadoraProvider {
 
-  // Se crea el objeto donde seran almacenadas las lavadoras
-  private listLavadoras: any;
+  private result: any;
 
   constructor(public afs: AngularFirestore) {}
 
   /**
-   * Servicio encargado de listar las lavadoras
+   * Servicio encargado de listar la informacion
    */
   getLavadoras() {
 
     return new Promise<any>((resolve, reject) => {
 
-      this.listLavadoras = this.afs.collection('Lavadoras')
+      let currentUser = firebase.auth().currentUser;
+      console.log("currentUser", currentUser);
+
+      this.result = this.afs.collection('Lavadoras')
           .snapshotChanges()
           .subscribe(snapshots => {
             resolve(snapshots)

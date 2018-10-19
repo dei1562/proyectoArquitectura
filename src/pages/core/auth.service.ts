@@ -8,7 +8,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
 import { FirebaseUserModel } from './user.model';
 import { environment } from '../../environment/environment';
-
+import { UserService } from '../core/user.service';
 
 @Injectable()
 export class AuthService {
@@ -18,65 +18,71 @@ export class AuthService {
     public fb: Facebook,
     public googlePlus: GooglePlus,
     public tw : TwitterConnect,
-    public platform: Platform
+    public platform: Platform,
+    public userService: UserService
   ){}
 
   doRegister(value){
-   return new Promise<any>((resolve, reject) => {
-     firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
-     .then(res => {
-       resolve(res);
-     }, err => reject(err))
-   })
+    return new Promise<any>((resolve, reject) => {
+      firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+      .then(res => {
+        resolve(res);
+      }, err => reject(err))
+    })
   }
 
   doLogin(value){
-   return new Promise<any>((resolve, reject) => {
-     firebase.auth().signInWithEmailAndPassword(value.email, value.password)
-     .then(res => {
-       resolve(res);
-     }, err => reject(err))
-   })
+    return new Promise<any>((resolve, reject) => {
+      firebase.auth().signInWithEmailAndPassword(value.email, value.password)
+      .then(res => {
+
+        this.userService.userExists();
+        resolve(res);
+      }, err => reject(err))
+    })
   }
 
   doLogout(){
-   return new Promise((resolve, reject) => {
-     if(firebase.auth().currentUser){
-       this.afAuth.auth.signOut()
-       resolve();
-     }
-     else {
-       reject();
-     }
-   });
+    return new Promise((resolve, reject) => {
+      if(firebase.auth().currentUser){
+        this.afAuth.auth.signOut()
+        resolve();
+      }
+      else {
+        reject();
+      }
+    });
   }
 
   doGoogleLogin(){
-     return new Promise<FirebaseUserModel>((resolve, reject) => {
-       if (this.platform.is('cordova')) {
-         this.googlePlus.login({
-           'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-           'webClientId': environment.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
-           'offline': true
-         }).then((response) => {
-           const googleCredential = firebase.auth.GoogleAuthProvider.credential(response.idToken);
-           firebase.auth().signInWithCredential(googleCredential)
-           .then((user) => {
-             resolve();
-           });
-         },(err) => {
-           reject(err);
-         });
-       }
-       else{
-         this.afAuth.auth
-         .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-         .then((user) => {
-            resolve()
-         })
-       }
-     })
-   }
+    return new Promise<FirebaseUserModel>((resolve, reject) => {
+      if (this.platform.is('cordova')) {
+        this.googlePlus.login({
+          'scopes': '', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+          'webClientId': environment.googleWebClientId, // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+          'offline': true
+        }).then((response) => {
+          const googleCredential = firebase.auth.GoogleAuthProvider.credential(response.idToken);
+          firebase.auth().signInWithCredential(googleCredential)
+          .then((user) => {
+            this.userService.userExists();
+            resolve();
+          });
+        },(err) => {
+          reject(err);
+        });
+      }
+      else{
+        this.afAuth.auth
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then((user) => {
+          
+          this.userService.userExists();
+          resolve()
+        })
+      }
+    })
+  }
 
   doFacebookLogin(){
     return new Promise<FirebaseUserModel>((resolve, reject) => {
@@ -86,7 +92,11 @@ export class AuthService {
         .then((response) => {
           const facebookCredential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
           firebase.auth().signInWithCredential(facebookCredential)
-            .then(user => resolve());
+            .then(user => {
+
+              this.userService.userExists();
+              resolve();
+            });
         }, err => reject(err)
         );
       }
@@ -100,7 +110,11 @@ export class AuthService {
           firebase.auth().currentUser.updateProfile({
             displayName: result.user.displayName,
             photoURL: bigImgUrl
-          }).then(res => resolve());
+          }).then(res => {
+
+            this.userService.userExists();
+            resolve();
+          });
         })
       }
     })
@@ -116,7 +130,10 @@ export class AuthService {
             const twitterCredential = firebase.auth.TwitterAuthProvider.credential(response.token, response.secret);
             firebase.auth().signInWithCredential(twitterCredential)
             .then(
-              user => resolve(),
+              user => {
+                this.userService.userExists();
+                resolve()
+              },
               error => reject(error)
             );
           },
@@ -137,7 +154,11 @@ export class AuthService {
           firebase.auth().currentUser.updateProfile({
             displayName: result.user.displayName,
             photoURL: bigImgUrl
-          }).then(res => resolve());
+          }).then(res => {
+
+            this.userService.userExists();
+            resolve();
+          });
         })
       }
     })

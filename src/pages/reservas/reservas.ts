@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 
-/**
- * Generated class for the ReservasPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { ReservasFormModalPage } from '../reservas-form-modal/reservas-form-modal';
+
+import { FirebaseReservaModel } from '../../models/reserva.model';
+import { ReservasProvider } from '../../providers/reservas/reservas';
 
 @Component({
   selector: 'page-reservas',
@@ -14,11 +12,42 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ReservasPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  listReservas: Array<any>;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private reservasProvider: ReservasProvider,
+    private modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ReservasPage');
+  }
+
+  ionViewWillEnter(){
+      this.getData();
+  }
+
+  getData() {
+    this.reservasProvider.getReservas()
+    .then(reservas => {
+      this.listReservas = reservas;
+    });
+  }
+
+  openNewReservaModal(){
+    let modal = this.modalCtrl.create(ReservasFormModalPage);
+    modal.onDidDismiss(data => {
+      this.getData();
+    });
+    modal.present();
+  }
+
+  openEditReservaModal(reserva){
+    let modal = this.modalCtrl.create(ReservasFormModalPage, {'reserva': reserva});
+    modal.onDidDismiss(data => {
+      this.getData();
+    });
+    modal.present();
   }
 
 }

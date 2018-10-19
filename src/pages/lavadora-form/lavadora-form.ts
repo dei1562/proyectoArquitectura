@@ -39,7 +39,7 @@ export class LavadoraFormPage {
   ionViewDidLoad() {
     var tempLavadora = this.navParams.get("lavadora");
     if(tempLavadora !== null && tempLavadora !== undefined){
-      console.log("tempLavadora", tempLavadora);
+
       this.lavadora = {
         key:        tempLavadora.payload.doc.id,
         marca:      tempLavadora.payload.doc.data().marca,

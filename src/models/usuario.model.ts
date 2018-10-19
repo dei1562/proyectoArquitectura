@@ -1,9 +1,7 @@
 export class FirebaseUsuarioModel {
-    key ?: string;
-    marca: string;
-    peso: number;
-    estado: boolean;
-    industrial: boolean;
-    precio: number;
+    uid ?: string;
+    nombre: string;
+    correo: string;
+    industrial: number;
     foto: string;
 }

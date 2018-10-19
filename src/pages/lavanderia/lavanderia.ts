@@ -20,6 +20,10 @@ export class LavanderiaPage {
               private lavadoraProvider: LavadoraProvider) {
   }
 
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LavanderiaPage');
+  }
+
   ionViewWillEnter(){
       this.getData();
   }
@@ -30,9 +34,4 @@ export class LavanderiaPage {
       this.listLavadoras = lavadoras;
     });
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LavanderiaPage');
-  }
-
 }
