@@ -1,4 +1,4 @@
-export class FirebaseLavadoraModel {
+export class FirebaseUsuarioModel {
     key ?: string;
     marca: string;
     peso: number;

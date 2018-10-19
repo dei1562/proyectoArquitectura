@@ -23,6 +23,8 @@ import { environment } from '../environment/environment';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
+import { UsuariosProvider } from '../providers/usuarios/usuarios';
+import { ReservasProvider } from '../providers/reservas/reservas';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { TwitterConnect } from '@ionic-native/twitter-connect';
     TwitterConnect,
     UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LavadoraProvider
+    LavadoraProvider,
+    UsuariosProvider,
+    ReservasProvider
   ]
 })
 export class AppModule {}

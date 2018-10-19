@@ -27,7 +27,6 @@ export class LavanderiaPage {
   getData() {
     this.lavadoraProvider.getLavadoras()
     .then(lavadoras => {
-      console.log("lavadoras", lavadoras);
       this.listLavadoras = lavadoras;
     });
   }

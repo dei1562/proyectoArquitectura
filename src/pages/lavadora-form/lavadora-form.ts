@@ -14,11 +14,11 @@ export class LavadoraFormPage {
 
   lavadora: FirebaseLavadoraModel = {
     marca: "",
-    weight: null,
-    status: true,
+    peso: null,
+    estado: true,
     industrial: false,
-    price: null,
-    image: ""
+    precio: null,
+    foto: ""
   };
 
   loading: Loading;
@@ -39,7 +39,17 @@ export class LavadoraFormPage {
   ionViewDidLoad() {
     var tempLavadora = this.navParams.get("lavadora");
     if(tempLavadora !== null && tempLavadora !== undefined){
-      this.lavadora = tempLavadora;
+      console.log("tempLavadora", tempLavadora);
+      this.lavadora = {
+        key:        tempLavadora.payload.doc.id,
+        marca:      tempLavadora.payload.doc.data().marca,
+        peso:       tempLavadora.payload.doc.data().peso,
+        estado:     tempLavadora.payload.doc.data().estado,
+        industrial: tempLavadora.payload.doc.data().industrial,
+        precio:     tempLavadora.payload.doc.data().precio,
+        foto:       tempLavadora.payload.doc.data().foto
+      };
+
       this.titulo   = "Editar Lavadora";
       this.flagButton = true;
     }
@@ -53,6 +63,7 @@ export class LavadoraFormPage {
   }
 
   updateLavadora(lavadora: FirebaseLavadoraModel){
+    console.log(lavadora);
     this.lavadoraService.updateLavadora(lavadora.key, lavadora)
     .then(() => {
       this.navCtrl.push(LavanderiaPage);
@@ -60,7 +71,7 @@ export class LavadoraFormPage {
   }
 
   removeLavadora(lavadora: FirebaseLavadoraModel){
-    this.lavadoraService.removeLavadora(lavadora)
+    this.lavadoraService.removeLavadora(lavadora.key)
     .then(() => {
       this.navCtrl.push(LavanderiaPage);
     })

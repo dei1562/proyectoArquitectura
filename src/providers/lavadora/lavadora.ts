@@ -24,7 +24,7 @@ export class LavadoraProvider {
       this.listLavadoras = this.afs.collection('Lavadoras')
           .snapshotChanges()
           .subscribe(snapshots => {
-            resolve(snapshots);
+            resolve(snapshots)
           })
     });
   }
@@ -34,14 +34,7 @@ export class LavadoraProvider {
     return new Promise<any>((resolve, reject) => {
 
       this.afs.collection('Lavadoras')
-      .add({
-        marca: value.marca,
-        weight: value.weight,
-        status: value.status,
-        industrial: value.industrial,
-        price: value.price,
-        image: value.image,
-      })
+      .add(value)
       .then(
         res => resolve(res),
         err => reject(err)

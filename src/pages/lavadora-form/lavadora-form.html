@@ -14,23 +14,23 @@
   </ion-item>
 
   <ion-item>
-      <ion-label>Peso</ion-label>
-      <ion-input [(ngModel)]="lavadora.weight"></ion-input>
+      <ion-label>Peso (lb)</ion-label>
+      <ion-input [(ngModel)]="lavadora.peso"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-label>Precio Hora</ion-label>
-    <ion-input [(ngModel)]="lavadora.modelo"></ion-input>
+    <ion-input [(ngModel)]="lavadora.precio"></ion-input>
   </ion-item>
 
   <ion-item>
       <ion-label>Estado</ion-label>
-      <ion-input [(ngModel)]="lavadora.serial"></ion-input>
+      <ion-toggle [(ngModel)]="lavadora.estado"></ion-toggle>
   </ion-item>
 
   <ion-item>
       <ion-label>¿Industrial?</ion-label>
-      <ion-input [(ngModel)]="lavadora.color"></ion-input>
+      <ion-toggle [(ngModel)]="lavadora.industrial"></ion-toggle>
   </ion-item>  
 
   <ion-item>
