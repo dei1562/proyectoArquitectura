@@ -9,6 +9,8 @@ import { FirebaseUserModel } from './user.model';
 @Injectable()
 export class UserService {
 
+  public user;
+
   constructor(public afs: AngularFirestore){}
 
   getCurrentUser(){
@@ -34,6 +36,26 @@ export class UserService {
         }
       })
     })
+  }
+
+  getExtraInfoUser() {
+
+    return new Promise<any>((resolve, reject) => {
+
+      let currentUser = firebase.auth().currentUser;
+
+      this.afs.collection('Usuarios', ref => ref.where('uid', '==', currentUser.uid))
+          .snapshotChanges()
+          .subscribe(snapshots => {
+
+            this.user = snapshots;
+            resolve(snapshots)
+          })
+    });
+  }
+
+  getEUser() {
+    return this.user;
   }
 
   userExists() {

@@ -5,6 +5,7 @@ import { ReservasFormModalPage } from '../reservas-form-modal/reservas-form-moda
 
 import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
+import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 
 @Component({
   selector: 'page-reservas',
@@ -16,6 +17,7 @@ export class ReservasPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservasProvider: ReservasProvider,
+    private lavadoraProvider: LavadoraProvider,    
     private modalCtrl: ModalController) {
   }
 
@@ -30,6 +32,16 @@ export class ReservasPage {
   getData() {
     this.reservasProvider.getReservas()
     .then(reservas => {
+
+      // for(let i=0; i < reservas.length; i++){
+      //   console.log("reservas[i].payload.doc.data()", reservas[i].payload.doc.data());
+      //   this.lavadoraProvider.getLavadora(reservas[i].payload.doc.data().lavadora)
+      //   .then(lavadora => {
+      //     console.log("lavadora", lavadora);
+      //     reservas[i].payload.doc.data().nombre_lavadora = lavadora[0].payload.doc.data().nombre;
+      //   })
+      // }
+
       this.listReservas = reservas;
     });
   }

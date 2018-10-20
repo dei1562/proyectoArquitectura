@@ -4,6 +4,7 @@ import { NavParams, ViewController, normalizeURL, ToastController, LoadingContro
 
 import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
+import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 
 @Component({
   selector: 'page-reservas-form-modal',
@@ -29,18 +30,28 @@ export class ReservasFormModalPage {
 
   fechaMinima:any;
 
+  lavadoras: any;
+
   constructor(
     public navParams: NavParams,
     private viewCtrl: ViewController,
     private toastCtrl: ToastController,
     // private formBuilder: FormBuilder,
     private reservaService: ReservasProvider,
+    private lavadoraService: LavadoraProvider,
     private loadingCtrl: LoadingController,
   ) {
     this.fechaMinima = (new Date()).toLocaleDateString();
   }
 
   ionViewDidLoad() {
+
+    this.lavadoraService.getLavadorasUser()
+    .then(lavadoras => {
+      this.lavadoras = lavadoras;
+      console.log("this.lavadoras", this.lavadoras);
+    });;
+
     var tempReserva = this.navParams.get("reserva");
     if(tempReserva !== null && tempReserva !== undefined){
 

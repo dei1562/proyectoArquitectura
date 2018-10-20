@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Register</ion-title>
+    <ion-title>Registro</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -16,16 +16,16 @@
       <ion-input type="password" formControlName="password" class="form-controll"></ion-input>
     </ion-item>
 
-    <button ion-button block class="submit-button" type="submit">Register</button>
+    <button ion-button block class="submit-button" type="submit">Registrar</button>
     <label class="error-message">{{errorMessage}}</label>
     <label class="success-message">{{successMessage}}</label>
     <br>
     <div>
-      <p>Already have an account? <a (click)="goLoginPage()">Try to Log in</a></p>
+      <p>¿Ya tiene una cuenta? <a (click)="goLoginPage()">Trate de hacer Log in</a></p>
     </div>
     <br>
   </form>
-  <button ion-button block type="submit" class="facebook-button" (click)="tryFacebookLogin()">Register with Facebook</button>
-  <button ion-button block type="submit" class="twitter-button" (click)="tryTwitterLogin()">Register with Twitter</button>
-  <button ion-button block type="submit" class="google-button"  (click)="tryGoogleLogin()">Register with Google</button>
+  <button ion-button block type="submit" class="facebook-button" (click)="tryFacebookLogin()">Registrar con Facebook</button>
+  <button ion-button block type="submit" class="twitter-button" (click)="tryTwitterLogin()">Registrar con Twitter</button>
+  <button ion-button block type="submit" class="google-button"  (click)="tryGoogleLogin()">Registrar con Google</button>
 </ion-content>

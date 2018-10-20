@@ -36,11 +36,15 @@ export class LoginPage {
     this.authService.doLogin(value)
     .then(res => {
 
-      this.userService.getCurrentUser()
-      .then(reservas => {
+      this.userService.getExtraInfoUser()
+      .then(usuario => {
+        if(usuario.length > 0 && usuario[0].payload.doc.data().administrador === true) {
+          this.navCtrl.push(LavanderiaPage);
+        }else{                
+          this.navCtrl.push(ReservasPage);
+        }
       });
       
-      this.navCtrl.push(ReservasPage);
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
@@ -50,7 +54,15 @@ export class LoginPage {
   tryFacebookLogin(){
     this.authService.doFacebookLogin()
     .then((res) => {
-      this.navCtrl.push(LavanderiaPage);
+
+      this.userService.getExtraInfoUser()
+      .then(usuario => {
+        if(usuario.length > 0 && usuario[0].payload.doc.data().administrador === true) {
+          this.navCtrl.push(LavanderiaPage);
+        }else{                
+          this.navCtrl.push(ReservasPage);
+        }
+      });
     }, (err) => {
       this.errorMessage = err.message;
     });
@@ -59,7 +71,15 @@ export class LoginPage {
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then((res) => {
-      this.navCtrl.push(LavanderiaPage);
+      
+      this.userService.getExtraInfoUser()
+      .then(usuario => {
+        if(usuario.length > 0 && usuario[0].payload.doc.data().administrador === true) {
+          this.navCtrl.push(LavanderiaPage);
+        }else{                
+          this.navCtrl.push(ReservasPage);
+        }
+      });
     }, (err) => {
       this.errorMessage = err.message;
     });
@@ -68,7 +88,15 @@ export class LoginPage {
   tryTwitterLogin(){
     this.authService.doTwitterLogin()
     .then((res) => {
-      this.navCtrl.push(LavanderiaPage);
+      
+      this.userService.getExtraInfoUser()
+      .then(usuario => {
+        if(usuario.length > 0 && usuario[0].payload.doc.data().administrador === true) {
+          this.navCtrl.push(LavanderiaPage);
+        }else{                
+          this.navCtrl.push(ReservasPage);
+        }
+      });
     }, (err) => {
       this.errorMessage = err.message;
     });

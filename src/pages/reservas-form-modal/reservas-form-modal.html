@@ -15,7 +15,10 @@
 
   <ion-item>
       <ion-label>Lavadora</ion-label>
-      <ion-input [(ngModel)]="reserva.lavadora"></ion-input>
+      <ion-select [(ngModel)]="reserva.lavadora">
+        <ion-option *ngFor="let lavadora of lavadoras" [value]="lavadora.payload.doc.id">{{ lavadora.payload.doc.data().marca + '(' + lavadora.payload.doc.data().peso + ' lb)' }}</ion-option>
+      </ion-select>
+      <ion-input ></ion-input>
   </ion-item>
 
   <ion-item>
