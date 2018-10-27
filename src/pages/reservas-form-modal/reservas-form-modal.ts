@@ -17,7 +17,6 @@ export class ReservasFormModalPage {
     usuario: "",
     fecha_inicio: null,
     hora_inicio: null,
-    fecha_fin: null,
     hora_fin: null,
     confirmado: 'P',
     valor: null
@@ -56,15 +55,14 @@ export class ReservasFormModalPage {
     if(tempReserva !== null && tempReserva !== undefined){
 
       this.reserva = {
-        key:        tempReserva.payload.doc.id,
-        lavadora:   tempReserva.payload.doc.data().lavadora,
-        usuario:    tempReserva.payload.doc.data().usuario,
-        fecha_inicio: tempReserva.payload.doc.data().fecha_inicio,
-        hora_inicio:  tempReserva.payload.doc.data().hora_inicio,
-        fecha_fin:  tempReserva.payload.doc.data().fecha_fin,
-        hora_fin:   tempReserva.payload.doc.data().hora_fin,
-        confirmado: tempReserva.payload.doc.data().confirmado,
-        valor:      tempReserva.payload.doc.data().valor,
+        key:        tempReserva.key,
+        lavadora:   tempReserva.lavadora,
+        usuario:    tempReserva.usuario,
+        fecha_inicio: tempReserva.fecha_inicio,
+        hora_inicio:  tempReserva.hora_inicio,
+        hora_fin:   tempReserva.hora_fin,
+        confirmado: tempReserva.confirmado,
+        valor:      tempReserva.valor,
       };
 
       this.titulo   = "Editar Reserva";

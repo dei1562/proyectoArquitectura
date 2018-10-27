@@ -57,15 +57,19 @@ export class LavadoraProvider {
 
   getLavadora(id) {
     console.log("id", id);
-    return new Promise<any>((resolve, reject) => {
+    // return new Promise<any>((resolve, reject) => {
 
-      this.afs.collection('Lavadoras')
-      .doc(id)
-      .snapshotChanges()
-      .subscribe(snapshots => {
-        resolve(snapshots)
-      })
-    });
+    //   this.afs.collection('Lavadoras')
+    //   .doc(id)
+    //   .snapshotChanges()
+    //   .subscribe(snapshots => {
+    //     resolve(snapshots)
+    //   })
+    // });
+
+    let tmpLavadora = this.afs.collection('Lavadoras').doc(id).valueChanges();
+
+    return tmpLavadora;    
   }
 
   addLavadora(value) {

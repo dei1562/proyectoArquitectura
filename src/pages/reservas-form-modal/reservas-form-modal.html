@@ -27,8 +27,13 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Hora</ion-label>
+    <ion-label>Hora Inicio</ion-label>
     <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'0'" [(ngModel)]="reserva.hora_inicio"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Hora Fin</ion-label>
+    <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'0'" [(ngModel)]="reserva.hora_fin"></ion-datetime>
   </ion-item>  
 
   <button ion-button block clear (click)="addReserva(reserva)" *ngIf="flagButton === false">Guardar</button>

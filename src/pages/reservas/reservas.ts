@@ -33,15 +33,6 @@ export class ReservasPage {
     this.reservasProvider.getReservas()
     .then(reservas => {
 
-      // for(let i=0; i < reservas.length; i++){
-      //   console.log("reservas[i].payload.doc.data()", reservas[i].payload.doc.data());
-      //   this.lavadoraProvider.getLavadora(reservas[i].payload.doc.data().lavadora)
-      //   .then(lavadora => {
-      //     console.log("lavadora", lavadora);
-      //     reservas[i].payload.doc.data().nombre_lavadora = lavadora[0].payload.doc.data().nombre;
-      //   })
-      // }
-
       this.listReservas = reservas;
     });
   }

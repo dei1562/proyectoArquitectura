@@ -5,13 +5,16 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 
 import { FirebaseReservaModel } from '../../models/reserva.model';
+import { FirebaseLavadoraModel } from '../../models/lavadora.model';
+
+import { LavadoraProvider } from '../lavadora/lavadora';
 
 @Injectable()
 export class ReservasProvider {
 
   private result: any;
 
-  constructor(public afs: AngularFirestore) {}
+  constructor(public afs: AngularFirestore, public lp: LavadoraProvider) {}
 
   /**
    * Servicio encargado de listar la informacion
@@ -25,8 +28,51 @@ export class ReservasProvider {
       this.result = this.afs.collection('Reservas', ref => ref.where('usuario', '==', currentUser.uid))
           .snapshotChanges()
           .subscribe(snapshots => {
-            resolve(snapshots)
+
+            var reservas:Array<FirebaseReservaModel> = [];
+            console.log("reservas1", reservas);
+            snapshots.forEach((element, key) => {
+              
+              reservas.push(element.payload.doc.data());
+
+              reservas[key].key = element.payload.doc.id;
+              
+              this.lp.getLavadora(element.payload.doc.data().lavadora)
+              .subscribe((res: FirebaseLavadoraModel[]) => {
+                reservas[key].dataLavadora = res;
+              });
+            });
+
+           
+            resolve(reservas)
           })
+
+      // let tmpReservas = this.afs.collection('Reservas', ref => ref.where('usuario', '==', currentUser.uid)).valueChanges();
+            
+      // if(tmpReservas){
+        
+      //   tmpReservas.forEach(element => {
+
+      //     element.forEach(reserva => {
+      //       this.lp.getLavadora(reserva.lavadora)
+      //       .subscribe((res: FirebaseLavadoraModel[]) => {
+
+      //         reserva.dataLavadora = res;
+      //       });
+      //     });
+
+      //     console.log("element", element);
+
+      //   });
+
+      //   resolve(tmpReservas);
+
+      // }else{
+
+      //   resolve([]);
+      // }
+
+      // console.log("reservas", reservas);
     });
   }
 

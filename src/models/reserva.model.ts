@@ -4,8 +4,8 @@ export class FirebaseReservaModel {
     usuario: string;
     fecha_inicio: Date;
     hora_inicio: Date;
-    fecha_fin: Date;
     hora_fin: Date;
     confirmado: string;
     valor: number;
+    dataLavadora ?: any;
 }
