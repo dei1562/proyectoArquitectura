@@ -29,50 +29,24 @@ export class ReservasProvider {
           .snapshotChanges()
           .subscribe(snapshots => {
 
-            var reservas:Array<FirebaseReservaModel> = [];
-            console.log("reservas1", reservas);
+            var reservas:Array<any> = [];
             snapshots.forEach((element, key) => {
               
-              reservas.push(element.payload.doc.data());
+              if(element.payload.doc.data()){
+                reservas.push(element.payload.doc.data());
 
-              reservas[key].key = element.payload.doc.id;
-              
-              this.lp.getLavadora(element.payload.doc.data().lavadora)
-              .subscribe((res: FirebaseLavadoraModel[]) => {
-                reservas[key].dataLavadora = res;
-              });
+                reservas[key].key = element.payload.doc.id;
+                
+                this.lp.getLavadora(reservas[key].lavadora)
+                .subscribe((res: FirebaseLavadoraModel[]) => {
+                  reservas[key].dataLavadora = res;
+                });
+              }              
             });
 
            
             resolve(reservas)
           })
-
-      // let tmpReservas = this.afs.collection('Reservas', ref => ref.where('usuario', '==', currentUser.uid)).valueChanges();
-            
-      // if(tmpReservas){
-        
-      //   tmpReservas.forEach(element => {
-
-      //     element.forEach(reserva => {
-      //       this.lp.getLavadora(reserva.lavadora)
-      //       .subscribe((res: FirebaseLavadoraModel[]) => {
-
-      //         reserva.dataLavadora = res;
-      //       });
-      //     });
-
-      //     console.log("element", element);
-
-      //   });
-
-      //   resolve(tmpReservas);
-
-      // }else{
-
-      //   resolve([]);
-      // }
-
-      // console.log("reservas", reservas);
     });
   }
 
