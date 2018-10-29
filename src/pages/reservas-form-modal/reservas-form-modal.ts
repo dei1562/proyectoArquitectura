@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController, normalizeURL, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { NavParams, ViewController, ToastController, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { FirebaseReservaModel } from '../../models/reserva.model';
@@ -12,6 +12,7 @@ import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 })
 export class ReservasFormModalPage {
 
+  // Objeto donde sera almacenada la informacion
   reserva: FirebaseReservaModel = {
     lavadora: "",
     usuario: "",
@@ -23,17 +24,29 @@ export class ReservasFormModalPage {
     valor: null
   };
 
+  // Variable global para manipular el mensaje de carga
   loading: Loading;
 
+  // Variables de configuracion para el titulo, el boton de accion y el eliminar
   titulo = 'Nueva Reserva';
   flagButton = false;
   flagEliminar = false;
 
   fechaMinima:any;
 
+  // Variable donde se almacenaran las labadoras del listado
   lavadoras: any;
 
+  // FromGroup utilizado para validaciones del formulario
   validationForm: FormGroup;
+
+  // Mensajes de validacion
+  validationMessages = {
+    'lavadora': [{ type: 'required', message: 'Por favor seleccione una lavadora' }],
+    'fecha_inicio': [{ type: 'required', message: 'Por favor seleccione una fecha' }],
+    'hora_inicio': [{ type: 'required', message: 'Por favor seleccione una hora de inicio' }],
+    'hora_fin': [{ type: 'required', message: 'Por favor seleccione una hora de finalización' }],
+  };
 
   constructor(
     public navParams: NavParams,
@@ -43,30 +56,39 @@ export class ReservasFormModalPage {
     private reservaService: ReservasProvider,
     private lavadoraService: LavadoraProvider,
     private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
   ) {
     this.fechaMinima = (new Date()).toLocaleDateString();
+
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...'
+    });
   }
 
   ionViewDidLoad() {
 
+    this.loading.present();
+
     this.lavadoraService.getLavadorasUser()
     .then(lavadoras => {
       this.lavadoras = lavadoras;
+
+      this.loading.dismiss();
     });
 
     var tempReserva = this.navParams.get("reserva");
     if(tempReserva !== null && tempReserva !== undefined){
 
       this.reserva = {
-        key:        tempReserva.key,
-        lavadora:   tempReserva.lavadora,
-        usuario:    tempReserva.usuario,
+        key:          tempReserva.key,
+        lavadora:     tempReserva.lavadora,
+        usuario:      tempReserva.usuario,
         fecha_inicio: tempReserva.fecha_inicio,
         hora_inicio:  tempReserva.hora_inicio,
-        hora_fin:   tempReserva.hora_fin,
-        confirmado: tempReserva.confirmado,
-        precio:      tempReserva.precio,
-        valor:      tempReserva.valor,
+        hora_fin:     tempReserva.hora_fin,
+        confirmado:   tempReserva.confirmado,
+        precio:       tempReserva.precio,
+        valor:        tempReserva.valor,
       };
 
       this.validationForm.get('lavadora').setValue(this.reserva.lavadora);
@@ -89,13 +111,6 @@ export class ReservasFormModalPage {
     });
   }
 
-  validationMessages = {
-    'lavadora': [{ type: 'required', message: 'Por favor seleccione una lavadora' }],
-    'fecha_inicio': [{ type: 'required', message: 'Por favor seleccione una fecha' }],
-    'hora_inicio': [{ type: 'required', message: 'Por favor seleccione una hora de inicio' }],
-    'hora_fin': [{ type: 'required', message: 'Por favor seleccione una hora de finalización' }],
-  };
-
   dismiss() {
     this.viewCtrl.dismiss();
    }
@@ -103,6 +118,7 @@ export class ReservasFormModalPage {
   addReserva(reserva: FirebaseReservaModel){
     this.reservaService.addReserva(reserva)
     .then(ref => {
+      this.presentToast("Reserva realizada correctamente.")
       this.viewCtrl.dismiss();
     })
   }
@@ -111,15 +127,15 @@ export class ReservasFormModalPage {
     console.log(reserva);
     this.reservaService.updateReserva(reserva.key, reserva)
     .then(() => {
+      this.presentToast("Reserva actualizada correctamente.")
       this.viewCtrl.dismiss();
     })
   }
 
   removeReserva(reserva: FirebaseReservaModel){
-    console.log("reserva", reserva);
-    this.flagEliminar = true;
     this.reservaService.removeReserva(reserva.key)
     .then(() => {
+      this.presentToast("Reserva eliminada correctamente.")
       this.viewCtrl.dismiss();
     })
   }
@@ -139,7 +155,6 @@ export class ReservasFormModalPage {
   onSubmit(values){
     
     if(this.validationForm.valid && this.flagEliminar === false) {
-      console.log("values", values);
 
       this.reserva.lavadora = values.value.lavadora;
       this.reserva.fecha_inicio = values.value.fecha_inicio;
@@ -152,5 +167,43 @@ export class ReservasFormModalPage {
         this.updateReserva(this.reserva);
       }
     }
+  }
+
+  presentToast(mensaje:string){
+    let toast = this.toastCtrl.create({
+      message: mensaje,
+      duration: 3000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+    });
+  
+    toast.present();
+  }
+
+  confirmEliminar() {
+    this.flagEliminar = true;
+
+    let alert = this.alertCtrl.create({
+      title: 'Confirmar eliminación',
+      message: '¿¿Desea eliminar el registro?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            this.flagEliminar = false;
+          }
+        },
+        {
+          text: 'Si',
+          handler: () => {
+            this.removeReserva(this.reserva);
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

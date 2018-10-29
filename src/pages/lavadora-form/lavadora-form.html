@@ -7,39 +7,76 @@
 </ion-header>
 
 <ion-content padding>
+    <form class="form" [formGroup]="validationForm" (ngSubmit)="onSubmit(validationForm)">
 
-  <ion-item>
-      <ion-label>Marca</ion-label>
-      <ion-input [(ngModel)]="lavadora.marca"></ion-input>
-  </ion-item>
+        <ion-item>
+            <ion-label>Marca</ion-label>
+            <ion-input formControlName="marca"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.marca">
+                <div class="error-message" *ngIf="validationForm.get('marca').hasError(validation.type) && (validationForm.get('marca').dirty || validationForm.get('marca').touched)">
+                {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
 
-  <ion-item>
-      <ion-label>Peso (lb)</ion-label>
-      <ion-input [(ngModel)]="lavadora.peso"></ion-input>
-  </ion-item>
+        <ion-item>
+            <ion-label>Peso (lb)</ion-label>
+            <ion-input formControlName="peso"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.peso">
+                <div class="error-message" *ngIf="validationForm.get('peso').hasError(validation.type) && (validationForm.get('peso').dirty || validationForm.get('peso').touched)">
+                {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
 
-  <ion-item>
-    <ion-label>Precio Hora</ion-label>
-    <ion-input [(ngModel)]="lavadora.precio"></ion-input>
-  </ion-item>
+        <ion-item>
+            <ion-label>Precio Hora</ion-label>
+            <ion-input formControlName="precio"></ion-input>
+        </ion-item>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.precio">
+                <div class="error-message" *ngIf="validationForm.get('precio').hasError(validation.type) && (validationForm.get('precio').dirty || validationForm.get('precio').touched)">
+                {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
 
-  <ion-item>
-      <ion-label>Estado</ion-label>
-      <ion-toggle [(ngModel)]="lavadora.estado"></ion-toggle>
-  </ion-item>
+        <ion-item>
+            <ion-label>Estado</ion-label>
+            <ion-toggle formControlName="estado"></ion-toggle>
+        </ion-item>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.estado">
+                <div class="error-message" *ngIf="validationForm.get('estado').hasError(validation.type) && (validationForm.get('estado').dirty || validationForm.get('estado').touched)">
+                {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
 
-  <ion-item>
-      <ion-label>¿Industrial?</ion-label>
-      <ion-toggle [(ngModel)]="lavadora.industrial"></ion-toggle>
-  </ion-item>  
+        <ion-item>
+            <ion-label>¿Industrial?</ion-label>
+            <ion-toggle formControlName="industrial"></ion-toggle>
+        </ion-item>  
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.industrial">
+                <div class="error-message" *ngIf="validationForm.get('industrial').hasError(validation.type) && (validationForm.get('industrial').dirty || validationForm.get('industrial').touched)">
+                {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
 
-  <ion-item>
-      <ion-label>Foto</ion-label>
-  </ion-item>
-  <img [src]="lavadora.foto" style="width: 50%;" [hidden]="lavadora.foto == null">
-
-  <button ion-button block clear (click)="addLavadora(lavadora)" *ngIf="flagButton === false">Guardar</button>
-  <button ion-button block clear (click)="updateLavadora(lavadora)" *ngIf="flagButton === true">Actualizar</button>
-  <button ion-button block clear (click)="removeLavadora(lavadora)" *ngIf="flagButton === true">Eliminar</button>
+        <ion-item>
+            <ion-label>Foto</ion-label>
+        </ion-item>
+        <img [src]="lavadora.foto" style="width: 50%;" [hidden]="lavadora.foto == null">
+    
+        <button ion-button full type="submit" *ngIf="flagButton === false" [disabled]="!validationForm.valid">Guardar</button>
+        <button ion-button full type="submit" *ngIf="flagButton === true" [disabled]="!validationForm.valid">Actualizar</button>
+        <button ion-button full color="danger" (click)="confirmEliminar()" *ngIf="flagButton === true">Eliminar</button>
+    </form>
 
 </ion-content>

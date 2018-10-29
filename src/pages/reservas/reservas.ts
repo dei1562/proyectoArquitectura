@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController,LoadingController, Loading } from 'ionic-angular';
 
 import { ReservasFormModalPage } from '../reservas-form-modal/reservas-form-modal';
 
 import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
-import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 
 @Component({
   selector: 'page-reservas',
@@ -13,12 +12,20 @@ import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 })
 export class ReservasPage {
 
-  listReservas: Array<any>;
+  // Variable global para manipular el spinner
+  loading: Loading;
+
+  // Variable global donde se guardan todas las reservas
+  listReservas: Array<FirebaseReservaModel>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private reservasProvider: ReservasProvider,
-    private lavadoraProvider: LavadoraProvider,    
+    private loadingCtrl: LoadingController,
+    private reservasProvider: ReservasProvider,    
     private modalCtrl: ModalController) {
+
+      this.loading = this.loadingCtrl.create({
+        content: 'Por favor espere...'
+      });
   }
 
   ionViewDidLoad() {
@@ -30,10 +37,13 @@ export class ReservasPage {
   }
 
   getData() {
+    this.loading.present();
+
     this.reservasProvider.getReservas()
     .then(reservas => {
-
       this.listReservas = reservas;
+
+      this.loading.dismiss();
     });
   }
 
