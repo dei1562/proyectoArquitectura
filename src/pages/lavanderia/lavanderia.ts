@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
 import { LavadoraFormPage } from '../lavadora-form/lavadora-form';
 
@@ -12,12 +12,18 @@ import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 })
 export class LavanderiaPage {
 
-  listLavadoras: Array<any>;
+  listLavadoras: Array<FirebaseLavadoraModel>;
 
   pushPage = LavadoraFormPage;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  // Variable global para manipular el mensaje de carga
+  loading: Loading;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
               private lavadoraProvider: LavadoraProvider) {
+    this.loading = this.loadingCtrl.create({
+      content: 'Por favor espere...'
+    });
   }
 
   ionViewDidLoad() {
@@ -29,9 +35,15 @@ export class LavanderiaPage {
   }
 
   getData() {
+
+    this.loading.present();
+
     this.lavadoraProvider.getLavadoras()
     .then(lavadoras => {
+
       this.listLavadoras = lavadoras;
+      this.loading.dismiss();
+      
     });
   }
 }

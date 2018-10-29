@@ -58,8 +58,8 @@ export class ReservasFormModalPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
   ) {
-    this.fechaMinima = (new Date()).toLocaleDateString();
-
+    this.fechaMinima = (new Date()).toISOString();
+    console.log("this.fechaMinima", this.fechaMinima);
     this.loading = this.loadingCtrl.create({
       content: 'Por favor espere...'
     });
@@ -105,7 +105,9 @@ export class ReservasFormModalPage {
   ionViewWillLoad() {
     this.validationForm = this.formBuilder.group({
       lavadora: new FormControl('', Validators.required),
-      fecha_inicio: new FormControl('', Validators.required),
+      fecha_inicio: new FormControl('',  Validators.compose([
+        Validators.required
+      ])),
       hora_inicio: new FormControl('', Validators.required),
       hora_fin: new FormControl('', Validators.required),
     });

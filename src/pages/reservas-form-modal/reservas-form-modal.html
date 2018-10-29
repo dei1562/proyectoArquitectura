@@ -35,7 +35,7 @@
 
     <ion-item>
         <ion-label>Fecha</ion-label>
-        <ion-datetime formControlName="fecha_inicio" displayFormat="YYYY/MM/DD" pickerFormat="YYYY/MM/DD" ></ion-datetime>
+        <ion-datetime formControlName="fecha_inicio" displayFormat="YYYY/MM/DD" pickerFormat="YYYY/MM/DD" [min]="fechaMinima"></ion-datetime>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validationMessages.fecha_inicio">
