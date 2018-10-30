@@ -1,26 +1,35 @@
 <ion-header>
-  <ion-navbar>
-      <ion-title>
-          Reservas
-      </ion-title>
+    <ion-navbar [hideBackButton]="true">
+        <ion-title>
+            Reservas
+        </ion-title>
 
-      <ion-buttons end>
-          <button (click)="openNewReservaModal()" ion-button>
-            <ion-icon name="add"></ion-icon>
-        </button>
-      </ion-buttons>
-  </ion-navbar>
+        <ion-buttons end>
+            <button (click)="cerrarSession()" ion-button>
+                <ion-icon name="log-out"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-      <ion-list-header>Reservas</ion-list-header>
-      <ion-item *ngFor="let reserva of listReservas" detail-push (click)="openEditReservaModal(reserva)">
-          <!-- <ion-thumbnail item-start>
-              <img [src]="reserva.payload.doc.data().foto" [hidden]="reserva.payload.doc.data().foto == null">
-          </ion-thumbnail> -->
-          <h1 *ngIf="reserva.dataLavadora">{{reserva.dataLavadora.marca + ' ' + reserva.dataLavadora.peso + 'lb'}}</h1>
-          <p>Fecha Reserva: {{reserva.fecha_inicio}}</p>
-      </ion-item>
-  </ion-list>
+    <ion-list>
+        <ion-list-header>Reservas</ion-list-header>
+        <ion-item *ngFor="let reserva of listReservas" detail-push (click)="openEditReservaModal(reserva)">
+            <!-- <ion-thumbnail item-start>
+                <img [src]="reserva.payload.doc.data().foto" [hidden]="reserva.payload.doc.data().foto == null">
+            </ion-thumbnail> -->
+            <h1 *ngIf="reserva.dataLavadora">{{reserva.dataLavadora.marca + ' ' + reserva.dataLavadora.peso + 'lb'}}</h1>
+            <p>Fecha Reserva: {{reserva.fecha_inicio}}</p>
+            <p>Hora Inicio: {{reserva.hora_inicio}}</p>
+            <p>Hora Fin: {{reserva.hora_fin}}</p>
+            <p>Valor Hora: {{reserva.precio | currency}}</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-fab right bottom>
+        <button (click)="openNewReservaModal()" ion-fab>
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
 </ion-content>

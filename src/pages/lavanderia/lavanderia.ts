@@ -6,6 +6,9 @@ import { LavadoraFormPage } from '../lavadora-form/lavadora-form';
 import { FirebaseLavadoraModel } from '../../models/lavadora.model';
 import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 
+import { AuthService } from '../core/auth.service';
+import { LoginPage } from '../login/login';
+
 @Component({
   selector: 'page-lavanderia',
   templateUrl: 'lavanderia.html',
@@ -16,14 +19,8 @@ export class LavanderiaPage {
 
   pushPage = LavadoraFormPage;
 
-  // Variable global para manipular el mensaje de carga
-  loading: Loading;
-
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
-              private lavadoraProvider: LavadoraProvider) {
-    this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...'
-    });
+              private lavadoraProvider: LavadoraProvider, public authService: AuthService) {    
   }
 
   ionViewDidLoad() {
@@ -36,14 +33,26 @@ export class LavanderiaPage {
 
   getData() {
 
-    this.loading.present();
+    let loading = this.loadingCtrl.create({
+      content: 'Por favor espere...'
+    });
+
+    loading.present();
 
     this.lavadoraProvider.getLavadoras()
     .then(lavadoras => {
 
       this.listLavadoras = lavadoras;
-      this.loading.dismiss();
+      loading.dismiss();
       
+    });
+  }
+
+  cerrarSession() {
+    this.authService.doLogout()
+    .then(res => {
+      this.navCtrl.push(LoginPage);
+    }, err => {
     });
   }
 }

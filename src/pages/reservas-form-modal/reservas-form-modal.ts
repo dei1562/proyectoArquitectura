@@ -163,11 +163,13 @@ export class ReservasFormModalPage {
       this.reserva.hora_inicio = values.value.hora_inicio;
       this.reserva.hora_fin = values.value.hora_fin;
 
-      if(this.flagButton === false) {
-        this.addReserva(this.reserva);
-      }else{
-        this.updateReserva(this.reserva);
-      }
+      this.reservaService.validarReserva(this.reserva);
+
+      // if(this.flagButton === false) {
+      //   this.addReserva(this.reserva);
+      // }else{
+      //   this.updateReserva(this.reserva);
+      // }
     }
   }
 

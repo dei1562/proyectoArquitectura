@@ -6,14 +6,14 @@ import { ReservasFormModalPage } from '../reservas-form-modal/reservas-form-moda
 import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
 
+import { AuthService } from '../core/auth.service';
+import { LoginPage } from '../login/login';
+
 @Component({
   selector: 'page-reservas',
   templateUrl: 'reservas.html',
 })
 export class ReservasPage {
-
-  // Variable global para manipular el spinner
-  loading: Loading;
 
   // Variable global donde se guardan todas las reservas
   listReservas: Array<FirebaseReservaModel>;
@@ -21,11 +21,10 @@ export class ReservasPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private reservasProvider: ReservasProvider,    
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController, 
+    public authService: AuthService) {
 
-      this.loading = this.loadingCtrl.create({
-        content: 'Por favor espere...'
-      });
+      
   }
 
   ionViewDidLoad() {
@@ -37,13 +36,18 @@ export class ReservasPage {
   }
 
   getData() {
-    this.loading.present();
+
+    let loading = this.loadingCtrl.create({
+      content: 'Por favor espere...'
+    });
+
+    loading.present();
 
     this.reservasProvider.getReservas()
     .then(reservas => {
       this.listReservas = reservas;
 
-      this.loading.dismiss();
+      loading.dismiss();
     });
   }
 
@@ -61,6 +65,14 @@ export class ReservasPage {
       this.getData();
     });
     modal.present();
+  }
+
+  cerrarSession() {
+    this.authService.doLogout()
+    .then(res => {
+      this.navCtrl.push(LoginPage);
+    }, err => {
+    });
   }
 
 }

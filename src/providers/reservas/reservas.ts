@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { map } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 
@@ -43,7 +45,6 @@ export class ReservasProvider {
                 });
               }              
             });
-
            
             resolve(reservas)
           })
@@ -90,6 +91,32 @@ export class ReservasProvider {
         err => reject(err)
       )
     })
+  }
+
+  validarReserva(reserva: FirebaseReservaModel) {
+
+    let resultA = this.afs.collection('Reservas', ref => ref.where('lavadora', '==', reserva.lavadora)
+                                                            .where('fecha_inicio', '==', reserva.fecha_inicio)
+                                                            .where('hora_inicio', '>=', reserva.hora_inicio)
+                                                            .where('hora_inicio', '<=', reserva.hora_inicio))
+                  .valueChanges();
+
+    let resultB = this.afs.collection('Reservas', ref => ref.where('lavadora', '==', reserva.lavadora)
+                                                            .where('fecha_inicio', '==', reserva.fecha_inicio)
+                                                            .where('hora_fin', '>=', reserva.hora_fin)
+                                                            .where('hora_fin', '<=', reserva.hora_fin))
+                  .valueChanges();
+
+    const reservasLavadora = combineLatest<any[]>(resultA, resultB).pipe(
+      map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
+    )
+    
+    reservasLavadora.forEach(value => {
+
+      console.log("value", value);
+    })
+
+    return reservasLavadora;
   }
 
 }
