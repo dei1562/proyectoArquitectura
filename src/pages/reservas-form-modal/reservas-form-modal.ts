@@ -163,7 +163,20 @@ export class ReservasFormModalPage {
       this.reserva.hora_inicio = values.value.hora_inicio;
       this.reserva.hora_fin = values.value.hora_fin;
 
-      this.reservaService.validarReserva(this.reserva);
+      let validarReserva = this.reservaService.validarReserva(this.reserva);
+
+      // let validadorReservas = false;
+    
+      // reservasLavadora.forEach(value => {
+      //   console.log("value", value);
+      //   if(value.length > 0 && validadorReservas === false) {
+      //     validadorReservas = true;
+      //     console.log("validadorReservas", validadorReservas);
+      //   }
+      // })
+      
+      // console.log("validadorReservas 2", validadorReservas);
+      console.log("validarReserva", validarReserva);
 
       // if(this.flagButton === false) {
       //   this.addReserva(this.reserva);

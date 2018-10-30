@@ -109,13 +109,8 @@ export class ReservasProvider {
 
     const reservasLavadora = combineLatest<any[]>(resultA, resultB).pipe(
       map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
-    )
+    );
     
-    reservasLavadora.forEach(value => {
-
-      console.log("value", value);
-    })
-
     return reservasLavadora;
   }
 
