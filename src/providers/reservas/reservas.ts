@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoadingController, Loading } from 'ionic-angular';
 
 import 'rxjs/add/operator/toPromise';
 import { combineLatest } from 'rxjs/observable/combineLatest';
@@ -16,7 +17,7 @@ export class ReservasProvider {
 
   private result: any;
 
-  constructor(public afs: AngularFirestore, public lp: LavadoraProvider) {}
+  constructor(public afs: AngularFirestore, public lp: LavadoraProvider, private loadingCtrl: LoadingController,) {}
 
   /**
    * Servicio encargado de listar la informacion
@@ -95,21 +96,31 @@ export class ReservasProvider {
 
   validarReserva(reserva: FirebaseReservaModel) {
 
+    let loading: Loading = this.loadingCtrl.create({
+      content: 'Validando disponibilidad de la lavadora, por favor espere...'
+    });
+
+    loading.present();
+
     let resultA = this.afs.collection('Reservas', ref => ref.where('lavadora', '==', reserva.lavadora)
+                                                            .where('estado', '==', true)
                                                             .where('fecha_inicio', '==', reserva.fecha_inicio)
                                                             .where('hora_inicio', '>=', reserva.hora_inicio)
                                                             .where('hora_inicio', '<=', reserva.hora_inicio))
                   .valueChanges();
 
     let resultB = this.afs.collection('Reservas', ref => ref.where('lavadora', '==', reserva.lavadora)
+                                                            .where('estado', '==', true)
                                                             .where('fecha_inicio', '==', reserva.fecha_inicio)
                                                             .where('hora_fin', '>=', reserva.hora_fin)
                                                             .where('hora_fin', '<=', reserva.hora_fin))
                   .valueChanges();
 
-    const reservasLavadora = combineLatest<any[]>(resultA, resultB).pipe(
-      map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) ),
+    let reservasLavadora = combineLatest<any[]>(resultA, resultB).pipe(
+      map(arr => arr.reduce((acc, cur) => acc.concat(cur) ) )
     );
+
+    loading.dismiss();
     
     return reservasLavadora;
   }

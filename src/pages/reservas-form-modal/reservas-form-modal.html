@@ -47,7 +47,7 @@
 
     <ion-item>
       <ion-label>Hora Inicio</ion-label>
-      <ion-datetime formControlName="hora_inicio" displayFormat="h:mm A" pickerFormat="h mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'0'" ></ion-datetime>
+      <ion-datetime formControlName="hora_inicio" displayFormat="hh:mm A" pickerFormat="hh mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'00'" ></ion-datetime>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validationMessages.hora_inicio">
@@ -59,7 +59,7 @@
 
     <ion-item>
       <ion-label>Hora Fin</ion-label>
-      <ion-datetime formControlName="hora_fin" displayFormat="h:mm A" pickerFormat="h mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'0'" ></ion-datetime>
+      <ion-datetime formControlName="hora_fin" displayFormat="hh:mm A" pickerFormat="hh mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'00'" ></ion-datetime>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validationMessages.hora_fin">

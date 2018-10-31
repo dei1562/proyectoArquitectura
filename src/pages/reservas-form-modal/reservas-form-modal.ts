@@ -21,7 +21,8 @@ export class ReservasFormModalPage {
     hora_fin: null,
     confirmado: 'P',
     precio: null,
-    valor: null
+    valor: null,
+    estado: true
   };
 
   // Variable global para manipular el mensaje de carga
@@ -58,8 +59,9 @@ export class ReservasFormModalPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
   ) {
+
     this.fechaMinima = (new Date()).toISOString();
-    console.log("this.fechaMinima", this.fechaMinima);
+
     this.loading = this.loadingCtrl.create({
       content: 'Por favor espere...'
     });
@@ -89,6 +91,7 @@ export class ReservasFormModalPage {
         confirmado:   tempReserva.confirmado,
         precio:       tempReserva.precio,
         valor:        tempReserva.valor,
+        estado:       tempReserva.estado,
       };
 
       this.validationForm.get('lavadora').setValue(this.reserva.lavadora);
@@ -163,34 +166,37 @@ export class ReservasFormModalPage {
       this.reserva.hora_inicio = values.value.hora_inicio;
       this.reserva.hora_fin = values.value.hora_fin;
 
+      // Se procede a validar si la lavadora ya posee una reserva en el tiempo seleccionado por el usuario      
       let validarReserva = this.reservaService.validarReserva(this.reserva);
 
-      // let validadorReservas = false;
-    
-      // reservasLavadora.forEach(value => {
-      //   console.log("value", value);
-      //   if(value.length > 0 && validadorReservas === false) {
-      //     validadorReservas = true;
-      //     console.log("validadorReservas", validadorReservas);
-      //   }
-      // })
-      
-      // console.log("validadorReservas 2", validadorReservas);
-      console.log("validarReserva", validarReserva);
+      let count = 0;
+      validarReserva.subscribe(value => {
 
-      // if(this.flagButton === false) {
-      //   this.addReserva(this.reserva);
-      // }else{
-      //   this.updateReserva(this.reserva);
-      // }
+        if(count === 0){
+          if(value.length > 0) {
+            this.presentToast("La lavadora ya se encuentra reserva para el horario seleccionado.", true);
+          }else{
+  
+            // Si la lavadora esta disponible se procede a crear la reserva si la bandera flagButton es falsa, de lo contrario se actualiza
+            if(this.flagButton === false) {
+              this.addReserva(this.reserva);
+            }else{
+              this.updateReserva(this.reserva);
+            }
+          }
+        }
+        
+        count++;
+      });      
     }
   }
 
-  presentToast(mensaje:string){
+  presentToast(mensaje:string, showClose?:boolean){
     let toast = this.toastCtrl.create({
       message: mensaje,
-      duration: 3000,
-      position: 'bottom'
+      duration: (showClose) ? null : 3000,
+      position: 'bottom',
+      showCloseButton: (showClose) ? showClose : false
     });
   
     toast.onDidDismiss(() => {
@@ -204,7 +210,7 @@ export class ReservasFormModalPage {
 
     let alert = this.alertCtrl.create({
       title: 'Confirmar eliminación',
-      message: '¿¿Desea eliminar el registro?',
+      message: '¿Desea eliminar el registro?',
       buttons: [
         {
           text: 'No',
