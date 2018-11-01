@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import { AngularFirestore } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
+import 'firebase/storage';
 
 import { FirebaseLavadoraModel } from '../../models/lavadora.model';
 import { UserService } from '../../pages/core/user.service';

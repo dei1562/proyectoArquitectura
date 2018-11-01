@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.reservaLabadoras" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Firebase Authentication in Ionic Framework Apps</name>
-    <description>Firebase Authentication example Ionic app</description>
+    <name>Reserva Lavadoras</name>
+    <description>Proyecto de Arquitectura el cual simulara un sistema de alquiler de lavadoras.</description>
     <author email="contact@ionicthemes.com" href="http://ionicframework.com/">IonicThemes Team</author>
     <content src="index.html" />
     <access origin="*" />
@@ -81,10 +81,10 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="1.1.19" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="2.0.5" />
-    <engine name="android" spec="6.4.0" />
-    <engine name="ios" spec="^4.5.5" />
     <plugin name="cordova-plugin-telerik-imagepicker" spec="2.2.2">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="Aplicacion para reservar lavadoras" />
     </plugin>
     <plugin name="cordova-plugin-crop" spec="0.4.0" />
+    <engine name="android" spec="6.4.0" />
+    <engine name="ios" spec="^4.5.5" />
 </widget>
