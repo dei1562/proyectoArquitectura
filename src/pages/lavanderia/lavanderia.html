@@ -20,7 +20,7 @@
                 <img [src]="lavadora.payload.doc.data().foto" [hidden]="lavadora.payload.doc.data().foto == null">
             </ion-thumbnail>
             <h1>{{lavadora.payload.doc.data().marca}}</h1>
-            <p>Peso: {{lavadora.payload.doc.data().peso}}</p>
+            <p>Capacidad: {{lavadora.payload.doc.data().peso}} lb</p>
             <p>Precio Hora: {{lavadora.payload.doc.data().precio | currency}}</p>
             <p *ngIf="lavadora.payload.doc.data().estado === true">Estado: Activo</p>
             <p *ngIf="lavadora.payload.doc.data().estado === false">Estado: Inactivo</p>
