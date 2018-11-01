@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ActionSheetController, ToastController, Platform, LoadingController, Loading, AlertController } from "ionic-angular";
+import { NavController, NavParams, normalizeURL, ActionSheetController, ToastController, Platform, LoadingController, Loading, AlertController } from "ionic-angular";
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Crop } from '@ionic-native/crop';
 
 import { FirebaseLavadoraModel } from '../../models/lavadora.model';
 import { LavadoraProvider } from '../../providers/lavadora/lavadora';
@@ -20,7 +22,7 @@ export class LavadoraFormPage {
     estado: true,
     industrial: false,
     precio: null,
-    foto: ""
+    foto: "./assets/imgs/default-laundry-machine-.png"
   };
 
   // Variable global para manipular el mensaje de carga
@@ -59,6 +61,8 @@ export class LavadoraFormPage {
             public platform: Platform,
             public loadingCtrl: LoadingController,
             private alertCtrl: AlertController,
+            private imagePicker: ImagePicker,
+            public cropService: Crop,
   ) {
 
     this.loading = this.loadingCtrl.create({
@@ -194,6 +198,54 @@ export class LavadoraFormPage {
       ]
     });
     alert.present();
+  }
+
+  openImagePicker(){
+    this.imagePicker.hasReadPermission().then(
+      (result) => {
+        if(result == false){
+          // no callbacks required as this opens a popup which returns async
+          this.imagePicker.requestReadPermission();
+        }
+        else if(result == true){
+          this.imagePicker.getPictures({
+            maximumImagesCount: 1
+          }).then(
+            (results) => {
+              for (var i = 0; i < results.length; i++) {
+                this.cropService.crop(results[i], {quality: 75}).then(
+                  newImage => {
+                    this.uploadImageToFirebase(newImage);
+                  },
+                  error => console.error("Error cropping image", error)
+                );
+              }
+            }, (err) => console.log(err)
+          );
+        }
+      }, (err) => {
+        console.log(err);
+      });
+  }
+
+  uploadImageToFirebase(image){
+    let loadingImg = this.loadingCtrl.create();
+
+    loadingImg.present();
+    image = normalizeURL(image);
+    let randomId = Math.random().toString(36).substr(2, 5);
+
+    //uploads img to firebase storage
+    this.lavadoraService.uploadImage(image, randomId)
+    .then(photoURL => {
+      this.lavadora.foto = photoURL;
+      loadingImg.dismiss();
+      let toast = this.toastCtrl.create({
+        message: 'Imagen actualizada correctamente',
+        duration: 3000
+      });
+      toast.present();
+      })
   }
 
 }

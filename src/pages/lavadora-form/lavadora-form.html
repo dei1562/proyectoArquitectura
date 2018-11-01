@@ -69,10 +69,23 @@
             </ng-container>
         </div>
 
-        <ion-item>
+        <div>
+            <ion-row no-padding>
+              <ion-col no-padding col-6 offset-3>
+                <img [src]="lavadora.foto" alt="this is the image"/>
+              </ion-col>
+            </ion-row>
+            <ion-row no-padding class="user-image-row">
+              <ion-col no-padding width-60>
+                <button class="image-action-button" ion-button outline block small (click)="openImagePicker()">Cambiar Imagen</button>
+              </ion-col>
+            </ion-row>
+        </div>
+
+        <!-- <ion-item>
             <ion-label>Foto</ion-label>
         </ion-item>
-        <img [src]="lavadora.foto" style="width: 50%;" [hidden]="lavadora.foto == null">
+        <img [src]="lavadora.foto" style="width: 50%;" [hidden]="lavadora.foto == null"> -->
     
         <button ion-button full type="submit" *ngIf="flagButton === false" [disabled]="!validationForm.valid">Guardar</button>
         <button ion-button full type="submit" *ngIf="flagButton === true" [disabled]="!validationForm.valid">Actualizar</button>

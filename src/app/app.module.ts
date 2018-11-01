@@ -12,6 +12,9 @@ import { LavadoraFormPage } from '../pages/lavadora-form/lavadora-form';
 import { ReservasPage } from '../pages/reservas/reservas';
 import { ReservasFormModalPage } from '../pages/reservas-form-modal/reservas-form-modal';
 
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Crop } from '@ionic-native/crop';
+
 import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
 import { LavadoraProvider } from '../providers/lavadora/lavadora';
@@ -61,11 +64,13 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     GooglePlus,
     AuthService,
     TwitterConnect,
+    ImagePicker,
+    Crop,
     UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     LavadoraProvider,
     UsuariosProvider,
-    ReservasProvider
+    ReservasProvider,
   ]
 })
 export class AppModule {}
