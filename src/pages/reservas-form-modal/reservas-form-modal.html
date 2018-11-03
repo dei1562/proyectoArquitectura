@@ -28,7 +28,10 @@
       </ng-container>
     </div>
 
-    <ion-item *ngIf="reserva.lavadora">
+    <ion-item *ngIf="reserva.precio">
+      <ion-thumbnail item-start *ngIf="fotoLavadora">
+          <img [src]="fotoLavadora" [hidden]="fotoLavadora == null">
+      </ion-thumbnail>
       <ion-label>Valor Hora</ion-label>
       <ion-label>{{ reserva.precio | currency }}</ion-label>    
     </ion-item>
@@ -47,7 +50,7 @@
 
     <ion-item>
       <ion-label>Hora Inicio</ion-label>
-      <ion-datetime formControlName="hora_inicio" displayFormat="hh:mm A" pickerFormat="hh mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'00'" ></ion-datetime>
+      <ion-datetime formControlName="hora_inicio" displayFormat="hh:mm A" pickerFormat="hh A"></ion-datetime>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validationMessages.hora_inicio">
@@ -59,7 +62,7 @@
 
     <ion-item>
       <ion-label>Hora Fin</ion-label>
-      <ion-datetime formControlName="hora_fin" displayFormat="hh:mm A" pickerFormat="hh mm A" hourValues="'6,7,8,9,10,11,12,13,14,15,16,17,18,19'" minuteValues="'00'" ></ion-datetime>
+      <ion-datetime formControlName="hora_fin" displayFormat="hh:mm A" pickerFormat="hh A"></ion-datetime>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validationMessages.hora_fin">

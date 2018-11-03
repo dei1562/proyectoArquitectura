@@ -16,8 +16,8 @@
     <ion-list>
         <ion-list-header>Reservas</ion-list-header>
         <ion-item *ngFor="let reserva of listReservas" detail-push (click)="openEditReservaModal(reserva)">
-            <ion-thumbnail item-start>
-                <img [src]="reserva.payload.doc.data().foto" [hidden]="reserva.payload.doc.data().foto == null">
+            <ion-thumbnail item-start *ngIf="reserva.dataLavadora">
+                <img [src]="reserva.dataLavadora.foto" [hidden]="reserva.dataLavadora.foto == null">
             </ion-thumbnail>
             <h1 *ngIf="reserva.dataLavadora">{{reserva.dataLavadora.marca + ' ' + reserva.dataLavadora.peso + 'lb'}}</h1>
             <p>Fecha Reserva: {{reserva.fecha_inicio}}</p>

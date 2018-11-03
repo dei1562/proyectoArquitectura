@@ -6,6 +6,8 @@ import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
 import { LavadoraProvider } from '../../providers/lavadora/lavadora';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'page-reservas-form-modal',
   templateUrl: 'reservas-form-modal.html',
@@ -40,6 +42,8 @@ export class ReservasFormModalPage {
 
   // FromGroup utilizado para validaciones del formulario
   validationForm: FormGroup;
+
+  fotoLavadora: string;
 
   // Mensajes de validacion
   validationMessages = {
@@ -152,7 +156,8 @@ export class ReservasFormModalPage {
       .forEach((value, key) => {
         if(value.payload.doc.id === lavadoraId){
           this.reserva.precio = value.payload.doc.data().precio;
-        }      
+          this.fotoLavadora = value.payload.doc.data().foto;
+        }
       });
     }    
   }
@@ -161,33 +166,45 @@ export class ReservasFormModalPage {
     
     if(this.validationForm.valid && this.flagEliminar === false) {
 
-      this.reserva.lavadora = values.value.lavadora;
-      this.reserva.fecha_inicio = values.value.fecha_inicio;
-      this.reserva.hora_inicio = values.value.hora_inicio;
-      this.reserva.hora_fin = values.value.hora_fin;
+      /**
+       * Valida las horas de la reserva segun la fecha seleccionada
+       */
+      let resultadoValidacion = this.validarHora(values);
 
-      // Se procede a validar si la lavadora ya posee una reserva en el tiempo seleccionado por el usuario      
-      let validarReserva = this.reservaService.validarReserva(this.reserva);
-
-      let count = 0;
-      validarReserva.subscribe(value => {
-
-        if(count === 0){
-          if(value.length > 0) {
-            this.presentToast("La lavadora ya se encuentra reserva para el horario seleccionado.", true);
-          }else{
-  
-            // Si la lavadora esta disponible se procede a crear la reserva si la bandera flagButton es falsa, de lo contrario se actualiza
-            if(this.flagButton === false) {
-              this.addReserva(this.reserva);
-            }else{
-              this.updateReserva(this.reserva);
+      if(resultadoValidacion === true) {
+    
+          this.reserva.lavadora = values.value.lavadora;
+          this.reserva.fecha_inicio = values.value.fecha_inicio;
+          this.reserva.hora_inicio = values.value.hora_inicio;
+          this.reserva.hora_fin = values.value.hora_fin;
+    
+          /**
+           * Se procede a validar si la lavadora ya posee una reserva en el tiempo seleccionado por el usuario      
+           */
+          let validarReserva = this.reservaService.validarReserva(this.reserva);
+    
+          let count = 0;
+          validarReserva.subscribe(value => {
+    
+            if(count === 0){
+              if(value.length > 0) {
+                this.presentToast("La lavadora ya se encuentra reserva para el horario seleccionado.", true);
+              }else{
+      
+                /**
+                 * Si la lavadora esta disponible se procede a crear la reserva si la bandera flagButton es falsa, de lo contrario se actualiza
+                 */
+                if(this.flagButton === false) {
+                  this.addReserva(this.reserva);
+                }else{
+                  this.updateReserva(this.reserva);
+                }
+              }
             }
-          }
-        }
-        
-        count++;
-      });      
+            
+            count++;
+          });
+      }
     }
   }
 
@@ -228,5 +245,46 @@ export class ReservasFormModalPage {
       ]
     });
     alert.present();
+  }
+
+  /**
+   * Valida el rango de la hora seleccionada para la reserva que se va a realizar:
+   * - Si la fecha seleccionada es la misma de la del dia entonces valida que la fecha inicial de la reserva se por lo menos dos horas mayor a la hora actual
+   * - Si la fecha es diferente a la dehoy entoces valida que las hora final no sea menor a la inicial
+   * @param values 
+   */
+  validarHora(values) {
+
+    let horaInicio = values.value.hora_inicio.split(":");
+        horaInicio = horaInicio[0];
+
+    let horaFin = values.value.hora_fin.split(":");
+        horaFin = horaFin[0];
+    
+    if(moment(values.value.fecha_inicio).isSame(moment().hour(0).minute(0).second(0).millisecond(0)) === true) {
+
+      if(horaInicio == moment().hour() || horaInicio == (moment().hour() + 1)) {
+        this.presentToast("La reservas para el mismo día se deben realizar con dos horas de anticipación.", true);
+        return false;
+      }
+    }
+
+    /**
+     * Valida que las horas no se pasen del horario de la tienda
+     */
+    if((horaInicio < 7 || horaInicio > 19) || (horaFin < 7 || horaFin > 19)) {
+      this.presentToast("Las horas seleccionadas no son validas, nuestro horario de atencion es de 7 AM a 7 PM.", true);
+      return false;
+    }
+    
+    /**
+     * Valida que las horas no sean iguales
+     */
+    if(horaInicio == horaFin) {
+      this.presentToast("Las horas seleccionadas no pueden ser iguales.", true);
+      return false;
+    }
+
+    return true;
   }
 }
