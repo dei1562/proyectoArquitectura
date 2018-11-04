@@ -19,6 +19,8 @@ import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
 import { LavadoraProvider } from '../providers/lavadora/lavadora';
 
+import { Firebase } from '@ionic-native/firebase';
+
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -30,6 +32,7 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
 import { UsuariosProvider } from '../providers/usuarios/usuarios';
 import { ReservasProvider } from '../providers/reservas/reservas';
+import { FcmProvider } from '../providers/fcm/fcm';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,7 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AngularFireStorageModule // imports firebase/storage only needed for storage features
+    AngularFireStorageModule, // imports firebase/storage only needed for storage features
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -73,6 +76,8 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     LavadoraProvider,
     UsuariosProvider,
     ReservasProvider,
+    Firebase,
+    FcmProvider,
   ]
 })
 export class AppModule {}
