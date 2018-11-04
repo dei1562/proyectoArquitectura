@@ -28,7 +28,8 @@ export class ReservasProvider {
 
       let currentUser = firebase.auth().currentUser;
 
-      this.result = this.afs.collection('Reservas', ref => ref.where('usuario', '==', currentUser.uid))
+      this.result = this.afs.collection('Reservas', ref => ref.where('usuario', '==', currentUser.uid)
+                                                              .orderBy('fecha_inicial', "desc"))
           .snapshotChanges()
           .subscribe(snapshots => {
 
@@ -52,6 +53,10 @@ export class ReservasProvider {
     });
   }
 
+  /**
+   * Servicio encargado de crear la reserva
+   * @param value 
+   */
   addReserva(value) {
 
     let currentUser = firebase.auth().currentUser;
@@ -68,6 +73,11 @@ export class ReservasProvider {
     })
   }
 
+  /**
+   * Servicio encargado de actualizar la informacion de la reserva
+   * @param reservaKey 
+   * @param value 
+   */
   updateReserva(reservaKey, value) {
     return new Promise<any>((resolve, reject) => {
 
@@ -81,6 +91,10 @@ export class ReservasProvider {
     })
   }
 
+  /**
+   * Servicio encargado de eliminar una reserva
+   * @param reservaKey 
+   */
   removeReserva(reservaKey) {
     return new Promise<any>((resolve, reject) => {
 
@@ -94,6 +108,10 @@ export class ReservasProvider {
     })
   }
 
+  /**
+   * Servicio encargado de validar la reserva que se esta creando en el sistema para evitar que esta ocupe una lavadora que ya se encuentra reservada
+   * @param reserva 
+   */
   validarReserva(reserva: FirebaseReservaModel) {
 
     let loading: Loading = this.loadingCtrl.create({

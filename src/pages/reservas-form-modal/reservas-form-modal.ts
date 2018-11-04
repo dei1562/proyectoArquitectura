@@ -133,7 +133,6 @@ export class ReservasFormModalPage {
   }
 
   updateReserva(reserva: FirebaseReservaModel){
-    console.log(reserva);
     this.reservaService.updateReserva(reserva.key, reserva)
     .then(() => {
       this.presentToast("Reserva actualizada correctamente.")

@@ -73,8 +73,8 @@
     </div>
 
     <button ion-button full type="submit" *ngIf="flagButton === false" [disabled]="!validationForm.valid">Guardar</button>
-    <button ion-button full type="submit" *ngIf="flagButton === true" [disabled]="!validationForm.valid">Actualizar</button>
-    <button ion-button full color="danger" (click)="confirmEliminar()" *ngIf="flagButton === true">Eliminar</button>
+    <button ion-button full type="submit" *ngIf="flagButton === true && reserva.confirmado == 'P'" [disabled]="!validationForm.valid">Actualizar</button>
+    <button ion-button full color="danger" (click)="confirmEliminar()" *ngIf="flagButton === true && reserva.confirmado == 'P'">Eliminar</button>
   </form> 
 
 </ion-content>
