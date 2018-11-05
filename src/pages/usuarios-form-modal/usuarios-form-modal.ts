@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '../core/auth.service';
 import { UserService } from '../core/user.service';
 
+import { FirebaseUserModel } from '../core/user.model';
+
 @Component({
   selector: 'page-usuarios-form-modal',
   templateUrl: 'usuarios-form-modal.html',
@@ -20,6 +22,8 @@ export class UsuariosFormModalPage {
   flagButton = false;
   flagEliminar = false;
   userKey:string;
+
+  private userInfo:FirebaseUserModel; 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public formBuilder: FormBuilder,
@@ -44,6 +48,7 @@ export class UsuariosFormModalPage {
     this.userKey = "";
     if(tempUsuario !== null && tempUsuario !== undefined){
 
+      this.userInfo = tempUsuario.payload.doc.data();
       this.userKey = tempUsuario.payload.doc.id;
 
       this.registerForm.get('email').setValue(tempUsuario.payload.doc.data().email);
@@ -59,6 +64,9 @@ export class UsuariosFormModalPage {
   tryRegister(value){
 
     if(this.flagButton === false) {
+
+      value.saldoanterior = 0;
+      value.saldo = 0;
 
       this.authService.doRegister(value)
         .then(res => {
@@ -80,6 +88,9 @@ export class UsuariosFormModalPage {
           this.errorMessage = err.message;
         })
     } else {
+
+      value.saldoanterior = (this.userInfo.saldoanterior) ? this.userInfo.saldoanterior : 0;
+      value.saldo = (this.userInfo.saldo) ? this.userInfo.saldo : 0;
 
       this.userService.updateUser(value, this.userKey)
         .then(res => {

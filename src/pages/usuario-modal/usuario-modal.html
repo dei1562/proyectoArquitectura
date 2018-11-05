@@ -13,5 +13,21 @@
 
 
 <ion-content padding>
-
+  <ion-card *ngIf="usuario">
+    <ion-card-content>
+      <ion-card-title>
+        Email: {{ usuario.email }}
+      </ion-card-title>
+      <p *ngIf="usuario.industrial == true">Usuario Industrial: Si</p>
+      <p *ngIf="usuario.industrial == false">Usuario Industrial: No</p>
+      <p>
+        Saldo actual: {{ usuario.saldo | currency }}
+      </p>
+      <ion-item>
+        <ion-label>Valor a recargar:</ion-label>
+        <ion-input type="number" [(ngModel)]="saldo_nuevo" name="saldoNuevo"></ion-input>
+      </ion-item>
+      <button ion-button full type="button" (click)="actualizarSaldo()">Actualizar Saldo</button>
+    </ion-card-content>
+  </ion-card> 
 </ion-content>

@@ -6,6 +6,8 @@ export class FirebaseUserModel {
   email: string;
   industrial: boolean;
   administrador: boolean;
+  saldoanterior: number;
+  saldo: number;
 
   constructor(){
     this.image = "";
@@ -14,5 +16,7 @@ export class FirebaseUserModel {
     this.email = "";
     this.industrial = false;
     this.administrador = false;
+    this.saldoanterior = 0;
+    this.saldo = 0;
   }
 }
