@@ -28,11 +28,10 @@ export class ReservasProvider {
 
       let currentUser = firebase.auth().currentUser;
 
-      this.result = this.afs.collection('Reservas', ref => ref.where('usuario', '==', currentUser.uid)
-                                                              .orderBy('fecha_inicial', "desc"))
+      this.result = this.afs.collection('Reservas', ref => ref.where('usuario', '==', currentUser.uid))
           .snapshotChanges()
           .subscribe(snapshots => {
-
+            console.log("snapshots", snapshots);
             var reservas:Array<any> = [];
             snapshots.forEach((element, key) => {
               
@@ -46,6 +45,52 @@ export class ReservasProvider {
                   reservas[key].dataLavadora = res;
                 });
               }              
+            });
+
+            reservas.sort((value1, value2): number => {
+
+              if((value1.fecha_inicio > value2.fecha_inicio) && (value1.hora_inicio > value2.hora_inicio) ) { return -1; }
+              if((value1.fecha_inicio < value2.fecha_inicio) && (value1.hora_inicio < value2.hora_inicio) ) { return 1; }
+
+              return 0;
+            });
+           
+            resolve(reservas)
+          })
+    });
+  }
+
+  /**
+   * Consulta todas las reservas para ser mostradas al administrador del sistema
+   */
+  getReservasAdministrador() {
+    return new Promise<any>((resolve, reject) => {
+      
+      this.result = this.afs.collection('Reservas')
+          .snapshotChanges()
+          .subscribe(snapshots => {
+            console.log("snapshots", snapshots);
+            var reservas:Array<any> = [];
+            snapshots.forEach((element, key) => {
+              
+              if(element.payload.doc.data()){
+                reservas.push(element.payload.doc.data());
+
+                reservas[key].key = element.payload.doc.id;
+                
+                this.lp.getLavadora(reservas[key].lavadora)
+                .subscribe((res: FirebaseLavadoraModel[]) => {
+                  reservas[key].dataLavadora = res;
+                });
+              }              
+            });
+
+            reservas.sort((value1, value2): number => {
+
+              if((value1.fecha_inicio > value2.fecha_inicio) && (value1.hora_inicio > value2.hora_inicio) ) { return -1; }
+              if((value1.fecha_inicio < value2.fecha_inicio) && (value1.hora_inicio < value2.hora_inicio) ) { return 1; }
+
+              return 0;
             });
            
             resolve(reservas)

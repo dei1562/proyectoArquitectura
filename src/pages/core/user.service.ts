@@ -10,6 +10,7 @@ import { FirebaseUserModel } from './user.model';
 export class UserService {
 
   public user;
+  public users;
 
   constructor(public afs: AngularFirestore){}
 
@@ -94,5 +95,19 @@ export class UserService {
         err => reject(err)
       )
     })
+  }
+
+  getUsuarios() {
+    
+    return new Promise<any>((resolve, reject) => {
+
+      this.afs.collection('Usuarios')
+          .snapshotChanges()
+          .subscribe(snapshots => {
+
+            this.users = snapshots;
+            resolve(snapshots)
+          })
+    });
   }
 }

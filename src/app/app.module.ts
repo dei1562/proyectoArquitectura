@@ -7,10 +7,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
+import { TabsPage } from '../pages/tabs/tabs';
 import { LavanderiaPage } from '../pages/lavanderia/lavanderia';
 import { LavadoraFormPage } from '../pages/lavadora-form/lavadora-form';
 import { ReservasPage } from '../pages/reservas/reservas';
 import { ReservasFormModalPage } from '../pages/reservas-form-modal/reservas-form-modal';
+import { UsuariosPage } from '../pages/usuarios/usuarios';
 
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
@@ -19,7 +21,7 @@ import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
 import { LavadoraProvider } from '../providers/lavadora/lavadora';
 
-import { Firebase } from '@ionic-native/firebase';
+// import { Firebase } from '@ionic-native/firebase';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -30,7 +32,6 @@ import { environment } from '../environment/environment';
 import { Facebook } from '@ionic-native/facebook';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
-import { UsuariosProvider } from '../providers/usuarios/usuarios';
 import { ReservasProvider } from '../providers/reservas/reservas';
 import { FcmProvider } from '../providers/fcm/fcm';
 
@@ -39,10 +40,12 @@ import { FcmProvider } from '../providers/fcm/fcm';
     MyApp,
     LoginPage,
     RegisterPage,
+    TabsPage,
     LavanderiaPage,
     LavadoraFormPage,
     ReservasPage,
     ReservasFormModalPage,
+    UsuariosPage,
   ],
   imports: [
     BrowserModule,
@@ -57,10 +60,12 @@ import { FcmProvider } from '../providers/fcm/fcm';
     MyApp,
     LoginPage,
     RegisterPage,
+    TabsPage,
     LavanderiaPage,
     LavadoraFormPage,
     ReservasPage,
     ReservasFormModalPage,
+    UsuariosPage,
   ],
   providers: [
     StatusBar,
@@ -74,9 +79,8 @@ import { FcmProvider } from '../providers/fcm/fcm';
     UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     LavadoraProvider,
-    UsuariosProvider,
     ReservasProvider,
-    Firebase,
+    // Firebase,
     FcmProvider,
   ]
 })

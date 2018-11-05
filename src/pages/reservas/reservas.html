@@ -20,7 +20,7 @@
                 <img [src]="reserva.dataLavadora.foto" [hidden]="reserva.dataLavadora.foto == null">
             </ion-thumbnail>
             <h1 *ngIf="reserva.dataLavadora">{{reserva.dataLavadora.marca + ' ' + reserva.dataLavadora.peso + 'lb'}}</h1>
-            <p>Fecha Reserva: {{reserva.fecha_inicio}}</p>
+            <p>Fecha: {{reserva.fecha_inicio}}</p>
             <p>Hora Inicio: {{reserva.hora_inicio}}</p>
             <p>Hora Fin: {{reserva.hora_fin}}</p>
             <p>Valor Hora: {{reserva.precio | currency}}</p>
@@ -34,7 +34,7 @@
         </ion-item>
     </ion-list>
 
-    <ion-fab right bottom>
+    <ion-fab right bottom *ngIf="!flagAdministrador">
         <button (click)="openNewReservaModal()" ion-fab>
             <ion-icon name="add"></ion-icon>
         </button>

@@ -5,6 +5,7 @@ import { ReservasFormModalPage } from '../reservas-form-modal/reservas-form-moda
 
 import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
+import { UserService } from '../core/user.service';
 
 import { AuthService } from '../core/auth.service';
 import { LoginPage } from '../login/login';
@@ -20,12 +21,25 @@ export class ReservasPage {
   // Variable global donde se guardan todas las reservas
   listReservas: Array<FirebaseReservaModel>;
 
+  /**
+   * Bandera que se utiliza para saber si el usuario es administrador
+   */
+  flagAdministrador: any = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private reservasProvider: ReservasProvider,    
     private modalCtrl: ModalController, 
-    public authService: AuthService) {      
+    public authService: AuthService,
+    public userService: UserService,) {
+
+      this.userService.getExtraInfoUser()
+      .then(usuario => {
+        if(usuario.length > 0 && usuario[0].payload.doc.data().administrador === true) {
+          this.flagAdministrador = true;
+        }
+      });
   }
 
   ionViewDidLoad() {
@@ -36,6 +50,9 @@ export class ReservasPage {
       this.getData();
   }
 
+  /**
+   * Consulta toda la informacion de las reservas
+   */
   getData() {
 
     let loading = this.loadingCtrl.create({
@@ -43,15 +60,30 @@ export class ReservasPage {
     });
 
     loading.present();
+    
+    if(this.flagAdministrador === true) {
 
-    this.reservasProvider.getReservas()
-    .then(reservas => {
-      this.listReservas = reservas;
+      this.reservasProvider.getReservasAdministrador()
+      .then(reservas => {
+        console.log("reservas", reservas);
+        this.listReservas = reservas;
+  
+        loading.dismiss();
+      });
+    } else {
 
-      loading.dismiss();
-    });
+      this.reservasProvider.getReservas()
+      .then(reservas => {
+        this.listReservas = reservas;
+  
+        loading.dismiss();
+      });
+    }
   }
 
+  /**
+   * Presenta en pantalla el formulario para crear un nuevo registro
+   */
   openNewReservaModal(){
     let modal = this.modalCtrl.create(ReservasFormModalPage);
     modal.onDidDismiss(data => {
@@ -60,11 +92,14 @@ export class ReservasPage {
     modal.present();
   }
 
+  /**
+   * Presenta en pantalla el formulario para actualizar o eliminar el registro seleccionado
+   */
   openEditReservaModal(event, reserva){
 
     event.stopPropagation();
 
-    if(reserva.confirmado == 'P') {
+    if(reserva.confirmado == 'P' && this.flagAdministrador === false) {
       let modal = this.modalCtrl.create(ReservasFormModalPage, {'reserva': reserva});
       modal.onDidDismiss(data => {
         this.getData();
@@ -73,6 +108,9 @@ export class ReservasPage {
     }
   }
 
+  /**
+   * Cierra la sesion actual del usuario
+   */
   cerrarSession() {
     this.authService.doLogout()
     .then(res => {
@@ -81,6 +119,9 @@ export class ReservasPage {
     });
   }
 
+  /**
+   * Accion para confirmar la reserva
+   */
   confirmar(event, value) {
 
     event.stopPropagation();    
@@ -94,6 +135,9 @@ export class ReservasPage {
 
   }
 
+  /**
+   * Accion para cancelar la reserva
+   */
   cancelar(event, value) {
 
     event.stopPropagation();
@@ -108,7 +152,14 @@ export class ReservasPage {
     
   }
 
+  /**
+   * Accion para ocultar el boton de confirmar y eliminar
+   */
   ocultarBoton(value) {
+
+    if(this.flagAdministrador === true) {
+      return false;
+    }
 
     if(value.confirmado != 'P') {
       return false;
@@ -124,6 +175,9 @@ export class ReservasPage {
     return false;
   }
 
+  /**
+   * Pinta en pantalla el mensaje toast que se le envie
+   */
   presentToast(mensaje:string, showClose?:boolean){
     let toast = this.toastCtrl.create({
       message: mensaje,

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { RegisterPage } from '../register/register';
 import { LavanderiaPage } from '../lavanderia/lavanderia';
+import { TabsPage } from '../tabs/tabs';
 import { ReservasPage } from '../reservas/reservas';
 import { AuthService } from '../core/auth.service';
 import { UserService } from '../core/user.service';
@@ -39,7 +40,8 @@ export class LoginPage {
       this.userService.getExtraInfoUser()
       .then(usuario => {
         if(usuario.length > 0 && usuario[0].payload.doc.data().administrador === true) {
-          this.navCtrl.push(LavanderiaPage);
+          // this.navCtrl.push(LavanderiaPage);
+          this.navCtrl.push(TabsPage);
         }else{                
           this.navCtrl.push(ReservasPage);
         }
