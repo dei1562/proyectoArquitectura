@@ -36,7 +36,7 @@ export class RegisterPage {
     this.authService.doRegister(value)
      .then(res => {
        this.errorMessage = "";
-       this.successMessage = "Your account has been created. Please log in now.";
+       this.successMessage = "Tu cuenta ha sido creada correctamente. Por favor ingresa al sistema.";
      }, err => {
        this.errorMessage = err.message;
        this.successMessage = "";

@@ -106,7 +106,7 @@ export class ReservasFormModalPage {
       this.titulo   = "Editar Reserva";
       this.flagButton = true;
 
-    }    
+    }
   }
 
   ionViewWillLoad() {
@@ -122,7 +122,7 @@ export class ReservasFormModalPage {
 
   dismiss() {
     this.viewCtrl.dismiss();
-   }
+  }
 
   addReserva(reserva: FirebaseReservaModel){
     this.reservaService.addReserva(reserva)
@@ -207,6 +207,11 @@ export class ReservasFormModalPage {
     }
   }
 
+  /**
+   * Pinta en pantalla un mensaje tipo toast
+   * @param mensaje 
+   * @param showClose 
+   */
   presentToast(mensaje:string, showClose?:boolean){
     let toast = this.toastCtrl.create({
       message: mensaje,
@@ -221,6 +226,9 @@ export class ReservasFormModalPage {
     toast.present();
   }
 
+  /**
+   * Validacion de confirmacion para eliminar la reserva
+   */
   confirmEliminar() {
     this.flagEliminar = true;
 

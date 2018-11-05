@@ -3,7 +3,7 @@ export class FirebaseUserModel {
   image: string;
   name: string;
   provider: string;
-  correo: string;
+  email: string;
   industrial: boolean;
   administrador: boolean;
 
@@ -11,7 +11,7 @@ export class FirebaseUserModel {
     this.image = "";
     this.name = "";
     this.provider = "";
-    this.correo = "";
+    this.email = "";
     this.industrial = false;
     this.administrador = false;
   }

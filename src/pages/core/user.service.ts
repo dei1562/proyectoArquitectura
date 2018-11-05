@@ -86,10 +86,24 @@ export class UserService {
       .add({
         "uid": value.uid,
         "nombre": value.displayName,
-        "correo": value.email,
-        "industrial": false,
-        "administrador": false
+        "email": value.email,
+        "industrial": (value.industrial) ? value.industrial : false,
+        "administrador": (value.administrador) ? value.administrador : false
       })
+      .then(
+        res => resolve(res),
+        err => reject(err)
+      )
+    })
+  }
+
+  updateUser(value, userKey) {
+
+    return new Promise<any>((resolve, reject) => {
+
+      this.afs.collection('Usuarios')
+      .doc(userKey)
+      .set(value)
       .then(
         res => resolve(res),
         err => reject(err)
@@ -104,10 +118,9 @@ export class UserService {
       this.afs.collection('Usuarios')
           .snapshotChanges()
           .subscribe(snapshots => {
-
-            this.users = snapshots;
             resolve(snapshots)
           })
     });
   }
+  
 }

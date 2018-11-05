@@ -16,17 +16,17 @@
   <ion-list>
       <ion-list-header>Usuarios</ion-list-header>
       <ion-item *ngFor="let usuario of listUsuarios" detail-push (click)="openEditUsuarioModal($event, usuario)">
-          <h1>{{usuario.email}}</h1>
-          <p *ngIf="usuario.administrador == 'S'">Administrador: Si</p>
-          <p *ngIf="usuario.administrador == 'N'">Administrador: No</p>
-          <p *ngIf="usuario.industrial == 'S'">Industrial: Si</p>
-          <p *ngIf="usuario.industrial == 'N'">Industrial: No</p>
-          <p>Reservas: {{usuario.reservas}}</p>
+          <h1>{{usuario.payload.doc.data().email}}</h1>
+          <p *ngIf="usuario.payload.doc.data().administrador === true">Administrador: Si</p>
+          <p *ngIf="usuario.payload.doc.data().administrador === false">Administrador: No</p>
+          <p *ngIf="usuario.payload.doc.data().industrial === true">Industrial: Si</p>
+          <p *ngIf="usuario.payload.doc.data().industrial === false">Industrial: No</p>
+          <p>Reservas: {{usuario.payload.doc.data().reservas}}</p>
       </ion-item>
   </ion-list>
 
   <ion-fab right bottom>
-      <button (click)="openNewReservaModal()" ion-fab>
+      <button (click)="openNewUsuarioModal()" ion-fab>
           <ion-icon name="add"></ion-icon>
       </button>
   </ion-fab>

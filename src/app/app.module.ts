@@ -13,6 +13,7 @@ import { LavadoraFormPage } from '../pages/lavadora-form/lavadora-form';
 import { ReservasPage } from '../pages/reservas/reservas';
 import { ReservasFormModalPage } from '../pages/reservas-form-modal/reservas-form-modal';
 import { UsuariosPage } from '../pages/usuarios/usuarios';
+import { UsuariosFormModalPage } from '../pages/usuarios-form-modal/usuarios-form-modal';
 
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
@@ -46,6 +47,7 @@ import { FcmProvider } from '../providers/fcm/fcm';
     ReservasPage,
     ReservasFormModalPage,
     UsuariosPage,
+    UsuariosFormModalPage,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +68,7 @@ import { FcmProvider } from '../providers/fcm/fcm';
     ReservasPage,
     ReservasFormModalPage,
     UsuariosPage,
+    UsuariosFormModalPage,
   ],
   providers: [
     StatusBar,

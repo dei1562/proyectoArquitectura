@@ -30,10 +30,10 @@ export class UsuariosPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UsuariosPage');
+    this.getData();
   }
 
-  ionViewWillEnter(){
-      this.getData();
+  ionViewWillEnter(){      
   }
 
   /**
@@ -49,6 +49,7 @@ export class UsuariosPage {
 
       this.userService.getUsuarios()
       .then(usuarios => {
+        console.log("usuarios", usuarios);
         this.listUsuarios = usuarios;
 
         loading.dismiss();
