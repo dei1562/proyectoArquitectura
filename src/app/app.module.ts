@@ -14,9 +14,9 @@ import { ReservasPage } from '../pages/reservas/reservas';
 import { ReservasFormModalPage } from '../pages/reservas-form-modal/reservas-form-modal';
 import { UsuariosPage } from '../pages/usuarios/usuarios';
 import { UsuariosFormModalPage } from '../pages/usuarios-form-modal/usuarios-form-modal';
+import { UsuarioModalPage } from '../pages/usuario-modal/usuario-modal';
 
 import { ImagePicker } from '@ionic-native/image-picker';
-import { Crop } from '@ionic-native/crop';
 
 import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
@@ -48,6 +48,7 @@ import { FcmProvider } from '../providers/fcm/fcm';
     ReservasFormModalPage,
     UsuariosPage,
     UsuariosFormModalPage,
+    UsuarioModalPage,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +70,7 @@ import { FcmProvider } from '../providers/fcm/fcm';
     ReservasFormModalPage,
     UsuariosPage,
     UsuariosFormModalPage,
+    UsuarioModalPage,
   ],
   providers: [
     StatusBar,
@@ -78,7 +80,6 @@ import { FcmProvider } from '../providers/fcm/fcm';
     AuthService,
     TwitterConnect,
     ImagePicker,
-    Crop,
     UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     LavadoraProvider,

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ModalController, LoadingController, Loading } from 'ionic-angular';
 
 import { ReservasFormModalPage } from '../reservas-form-modal/reservas-form-modal';
+import { UsuarioModalPage } from '../usuario-modal/usuario-modal';
 
 import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
@@ -88,6 +89,16 @@ export class ReservasPage {
     let modal = this.modalCtrl.create(ReservasFormModalPage);
     modal.onDidDismiss(data => {
       this.getData();
+    });
+    modal.present();
+  }
+  
+  /**
+   * Presenta en pantalla el perfil del usuario conectado
+   */
+  userProfile(){
+    let modal = this.modalCtrl.create(UsuarioModalPage);
+    modal.onDidDismiss(data => {
     });
     modal.present();
   }

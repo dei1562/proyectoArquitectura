@@ -120,6 +120,9 @@ export class ReservasFormModalPage {
     });
   }
 
+  /**
+   * Cierra el modal actualmente activo
+   */
   dismiss() {
     this.viewCtrl.dismiss();
   }
