@@ -5,6 +5,7 @@ import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms'
 import { FirebaseReservaModel } from '../../models/reserva.model';
 import { ReservasProvider } from '../../providers/reservas/reservas';
 import { LavadoraProvider } from '../../providers/lavadora/lavadora';
+import { UserService } from '../core/user.service';
 
 import * as moment from 'moment';
 
@@ -62,6 +63,7 @@ export class ReservasFormModalPage {
     private lavadoraService: LavadoraProvider,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
+    private userService: UserService,
   ) {
 
     this.fechaMinima = (new Date()).toISOString();
@@ -164,7 +166,7 @@ export class ReservasFormModalPage {
     }    
   }
 
-  onSubmit(values){
+  onSubmit(values){    
     
     if(this.validationForm.valid && this.flagEliminar === false) {
 
@@ -178,7 +180,7 @@ export class ReservasFormModalPage {
           this.reserva.lavadora = values.value.lavadora;
           this.reserva.fecha_inicio = values.value.fecha_inicio;
           this.reserva.hora_inicio = values.value.hora_inicio;
-          this.reserva.hora_fin = values.value.hora_fin;
+          this.reserva.hora_fin = values.value.hora_fin;          
     
           /**
            * Se procede a validar si la lavadora ya posee una reserva en el tiempo seleccionado por el usuario      
@@ -192,7 +194,18 @@ export class ReservasFormModalPage {
               if(value.length > 0) {
                 this.presentToast("La lavadora ya se encuentra reserva para el horario seleccionado.", true);
               }else{
-      
+
+                /**
+                 * Se procede a validar si el usuario tiene saldo para realizar la reserva
+                 */
+                let tiempoReserva =  parseInt(this.reserva.hora_fin.slice(0,2)) - parseInt(this.reserva.hora_inicio.slice(0,2));
+                let costoReserva = tiempoReserva * this.reserva.precio;
+
+                if(costoReserva > this.userService.getEUser()[0].payload.doc.data().saldo) {
+                  this.presentToast("No cuenta con el saldo suficiente para crear esta reserva.", true);
+                  return false;
+                }
+
                 /**
                  * Si la lavadora esta disponible se procede a crear la reserva si la bandera flagButton es falsa, de lo contrario se actualiza
                  */
@@ -282,8 +295,8 @@ export class ReservasFormModalPage {
     /**
      * Valida que las horas no se pasen del horario de la tienda
      */
-    if((horaInicio < 7 || horaInicio > 19) || (horaFin < 7 || horaFin > 19)) {
-      this.presentToast("Las horas seleccionadas no son validas, nuestro horario de atencion es de 7 AM a 7 PM.", true);
+    if((horaInicio < 7 || horaInicio > 23) || (horaFin < 7 || horaFin > 23)) {
+      this.presentToast("Las horas seleccionadas no son validas, nuestro horario de atencion es de 7 AM a 11 PM.", true);
       return false;
     }
     

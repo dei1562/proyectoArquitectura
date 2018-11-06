@@ -33,6 +33,9 @@ export class LavadoraProvider {
     });
   }
 
+  /**
+   * Lista la informacion de las lavadoras que puede reservar el usuario
+   */
   getLavadorasUser() {
 
     return new Promise<any>((resolve, reject) => {
@@ -56,23 +59,21 @@ export class LavadoraProvider {
     });
   }
 
+  /**
+   * Consulta una lavadora por codigo
+   * @param id Codigo de lavadora
+   */
   getLavadora(id) {
-    console.log("id", id);
-    // return new Promise<any>((resolve, reject) => {
-
-    //   this.afs.collection('Lavadoras')
-    //   .doc(id)
-    //   .snapshotChanges()
-    //   .subscribe(snapshots => {
-    //     resolve(snapshots)
-    //   })
-    // });
 
     let tmpLavadora = this.afs.collection('Lavadoras').doc(id).valueChanges();
 
     return tmpLavadora;    
   }
 
+  /**
+   * Crea un nuevo registro
+   * @param value 
+   */
   addLavadora(value) {
 
     return new Promise<any>((resolve, reject) => {
@@ -86,6 +87,11 @@ export class LavadoraProvider {
     })
   }
 
+  /**
+   * Actualiza el registro
+   * @param lavadoraKey 
+   * @param value 
+   */
   updateLavadora(lavadoraKey, value) {
     return new Promise<any>((resolve, reject) => {
 
@@ -99,6 +105,10 @@ export class LavadoraProvider {
     })
   }
 
+  /**
+   * Elimina el registro
+   * @param lavadoraKey 
+   */
   removeLavadora(lavadoraKey) {
     return new Promise<any>((resolve, reject) => {
 
@@ -109,6 +119,22 @@ export class LavadoraProvider {
         res => resolve(res),
         err => reject(err)
       )
+    })
+  }
+
+  /**
+   * Valida si el rele asignado a la lavadora ya se encuentra ocupado
+   * @param numRele Numero de Rele
+   */
+  validarDisponibilidadRele(numRele) {
+
+    return new Promise<any>((resolve, reject) => {
+
+      this.result = this.afs.collection('Lavadoras', ref => ref.where('rele', '==', numRele))
+      .snapshotChanges()
+      .subscribe(snapshots => {
+        resolve(snapshots)
+      })
     })
   }
 

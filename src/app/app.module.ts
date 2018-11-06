@@ -22,7 +22,7 @@ import { AuthService } from '../pages/core/auth.service';
 import { UserService } from '../pages/core/user.service';
 import { LavadoraProvider } from '../providers/lavadora/lavadora';
 
-// import { Firebase } from '@ionic-native/firebase';
+import { Firebase } from '@ionic-native/firebase';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
@@ -84,7 +84,7 @@ import { FcmProvider } from '../providers/fcm/fcm';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     LavadoraProvider,
     ReservasProvider,
-    // Firebase,
+    Firebase,
     FcmProvider,
   ]
 })

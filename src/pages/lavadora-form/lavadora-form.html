@@ -69,6 +69,23 @@
             </ng-container>
         </div>
 
+        <ion-item>
+            <ion-label>Rele No.</ion-label>
+            <ion-select formControlName="rele">
+                <ion-option value="1">1</ion-option>
+                <ion-option value="2">2</ion-option>
+                <ion-option value="3">3</ion-option>
+                <ion-option value="4">4</ion-option>
+            </ion-select>
+        </ion-item>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validationMessages.rele">
+                <div class="error-message" *ngIf="validationForm.get('rele').hasError(validation.type) && (validationForm.get('rele').dirty || validationForm.get('rele').touched)">
+                {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
+
         <div>
             <ion-row no-padding>
               <ion-col no-padding col-6 offset-3>

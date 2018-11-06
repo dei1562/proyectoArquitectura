@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, normalizeURL, ActionSheetController, ToastController, Platform, LoadingController, Loading, AlertController } from "ionic-angular";
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ImagePicker } from '@ionic-native/image-picker';
-import { Crop } from '@ionic-native/crop';
 
 import { FirebaseLavadoraModel } from '../../models/lavadora.model';
 import { LavadoraProvider } from '../../providers/lavadora/lavadora';
@@ -22,7 +21,8 @@ export class LavadoraFormPage {
     estado: true,
     industrial: false,
     precio: null,
-    foto: "./assets/imgs/default-laundry-machine-.png"
+    foto: "./assets/imgs/default-laundry-machine-.png",
+    rele: null
   };
 
   // Variable global para manipular el mensaje de carga
@@ -52,6 +52,8 @@ export class LavadoraFormPage {
     'foto': [{ type: 'required', message: 'Por favor seleccione una foto' }],
   };
 
+  tmpLavadora: any;
+
   constructor(public navCtrl: NavController,
             public navParams: NavParams, 
             private lavadoraService: LavadoraProvider,
@@ -62,7 +64,6 @@ export class LavadoraFormPage {
             public loadingCtrl: LoadingController,
             private alertCtrl: AlertController,
             private imagePicker: ImagePicker,
-            public cropService: Crop,
   ) {
 
     this.loading = this.loadingCtrl.create({
@@ -70,21 +71,25 @@ export class LavadoraFormPage {
     });
   }
 
+  /**
+   * Se inicializan los campos para el formulario si se esta actualizando el registro
+   */
   ionViewDidLoad() {
 
     this.loading.present();
 
-    var tempLavadora = this.navParams.get("lavadora");
-    if(tempLavadora !== null && tempLavadora !== undefined){
+    this.tmpLavadora = this.navParams.get("lavadora");
+    if(this.tmpLavadora !== null && this.tmpLavadora !== undefined){
 
       this.lavadora = {
-        key:        tempLavadora.payload.doc.id,
-        marca:      tempLavadora.payload.doc.data().marca,
-        peso:       tempLavadora.payload.doc.data().peso,
-        estado:     tempLavadora.payload.doc.data().estado,
-        industrial: tempLavadora.payload.doc.data().industrial,
-        precio:     tempLavadora.payload.doc.data().precio,
-        foto:       tempLavadora.payload.doc.data().foto
+        key:        this.tmpLavadora.payload.doc.id,
+        marca:      this.tmpLavadora.payload.doc.data().marca,
+        peso:       this.tmpLavadora.payload.doc.data().peso,
+        estado:     this.tmpLavadora.payload.doc.data().estado,
+        industrial: this.tmpLavadora.payload.doc.data().industrial,
+        precio:     this.tmpLavadora.payload.doc.data().precio,
+        foto:       this.tmpLavadora.payload.doc.data().foto,
+        rele:       this.tmpLavadora.payload.doc.data().rele,
       };
 
       this.validationForm.get('marca').setValue(this.lavadora.marca);
@@ -92,7 +97,7 @@ export class LavadoraFormPage {
       this.validationForm.get('precio').setValue(this.lavadora.precio);
       this.validationForm.get('estado').setValue(this.lavadora.estado);
       this.validationForm.get('industrial').setValue(this.lavadora.industrial);
-      // this.validationForm.get('foto').setValue(this.lavadora.foto);
+      this.validationForm.get('rele').setValue(this.lavadora.rele);
 
       this.titulo   = "Editar Lavadora";
       this.flagButton = true;
@@ -101,6 +106,9 @@ export class LavadoraFormPage {
     this.loading.dismiss();
   }
 
+  /**
+   * Se crean los validadores para los campos del formulario
+   */
   ionViewWillLoad() {
     this.validationForm = this.formBuilder.group({
       marca: new FormControl('', Validators.required),
@@ -114,10 +122,14 @@ export class LavadoraFormPage {
       ])),
       estado: new FormControl(true, Validators.required),
       industrial: new FormControl(false, Validators.required),
-      // foto: new FormControl('', Validators.required),
+      rele: new FormControl(false, Validators.required),
     });
   }
 
+  /**
+   * Funcion para crear el registro
+   * @param lavadora 
+   */
   addLavadora(lavadora: FirebaseLavadoraModel){
     this.lavadoraService.addLavadora(lavadora)
     .then(ref => {
@@ -126,8 +138,11 @@ export class LavadoraFormPage {
     })
   }
 
-  updateLavadora(lavadora: FirebaseLavadoraModel){
-    console.log(lavadora);
+  /**
+   * Funcion para actualizar el registro
+   * @param lavadora 
+   */
+  updateLavadora(lavadora: FirebaseLavadoraModel){    
     this.lavadoraService.updateLavadora(lavadora.key, lavadora)
     .then(() => {
       this.presentToast("Registro actualizado correctamente.")
@@ -135,6 +150,10 @@ export class LavadoraFormPage {
     })
   }
 
+  /**
+   * Funcion para eliminar el registro
+   * @param lavadora 
+   */
   removeLavadora(lavadora: FirebaseLavadoraModel){
     this.lavadoraService.removeLavadora(lavadora.key)
     .then(() => {
@@ -143,6 +162,10 @@ export class LavadoraFormPage {
     })
   }
 
+  /**
+   * Accion submit del formulario, esta realiza dos validaciones antes de proceder a crear o actualizar el registro
+   * @param values 
+   */
   onSubmit(values){
     
     if(this.validationForm.valid && this.flagEliminar === false) {
@@ -152,16 +175,38 @@ export class LavadoraFormPage {
       this.lavadora.precio = values.value.precio;
       this.lavadora.estado = values.value.estado;
       this.lavadora.industrial = values.value.industrial;
-      // this.lavadora.foto = values.value.foto;
+      this.lavadora.rele = values.value.rele;
 
-      if(this.flagButton === false) {
-        this.addLavadora(this.lavadora);
-      }else{
-        this.updateLavadora(this.lavadora);
-      }
+      /**
+       * Accion para validar si el rele que se selecciona se encuentra disponible
+       */
+      this.lavadoraService.validarDisponibilidadRele(this.lavadora.rele)
+      .then(lavadoras => {
+
+        let flagEstado = true;
+        if(lavadoras.length > 0 && this.flagButton === false){
+          flagEstado = false;
+        } else if(lavadoras.length > 0 && this.flagButton === true && (this.tmpLavadora.payload.doc.data().rele !== this.lavadora.rele)) {
+          flagEstado = false;
+        }
+        
+        if(flagEstado) {
+          if(this.flagButton === false) {
+            this.addLavadora(this.lavadora);
+          }else{
+            this.updateLavadora(this.lavadora);
+          }
+        } else {
+          this.presentToast("No es posible asignar el Rele No. "+this.lavadora.rele+" a la lavadora, este ya se encuentra asignado.")
+        }
+      });
     }
   }
 
+  /**
+   * Muestra en pantalla el mensaje enviado como parametro en un toast en la parte inferior de la pantalla
+   * @param mensaje 
+   */
   presentToast(mensaje:string){
     let toast = this.toastCtrl.create({
       message: mensaje,
@@ -175,6 +220,9 @@ export class LavadoraFormPage {
     toast.present();
   }
 
+  /**
+   * Presenta en pantalla un cuadro de dialogo donde le solicita al usuario confirmacion para eliminar el registro
+   */
   confirmEliminar() {
     this.flagEliminar = true;
 
@@ -200,6 +248,9 @@ export class LavadoraFormPage {
     alert.present();
   }
 
+  /**
+   * Abre en pantalla la pantalla para seleccionar la imagen
+   */
   openImagePicker(){
     this.imagePicker.hasReadPermission().then(
       (result) => {
@@ -221,33 +272,12 @@ export class LavadoraFormPage {
       }, (err) => {
         console.log(err);
       });
-    // this.imagePicker.hasReadPermission().then(
-    //   (result) => {
-    //     if(result == false){
-    //       // no callbacks required as this opens a popup which returns async
-    //       this.imagePicker.requestReadPermission();
-    //     }
-    //     else if(result == true){
-    //       this.imagePicker.getPictures({
-    //         maximumImagesCount: 1
-    //       }).then(
-    //         (results) => {
-    //           for (var i = 0; i < results.length; i++) {
-    //             this.cropService.crop(results[i], {quality: 75}).then(
-    //               newImage => {
-    //                 this.uploadImageToFirebase(newImage);
-    //               },
-    //               error => console.error("Error cropping image", error)
-    //             );
-    //           }
-    //         }, (err) => console.log(err)
-    //       );
-    //     }
-    //   }, (err) => {
-    //     console.log(err);
-    //   });
   }
 
+  /**
+   * Accion para cargar la imagen a firebase
+   * @param image 
+   */
   uploadImageToFirebase(image){
     let loadingImg = this.loadingCtrl.create();
 

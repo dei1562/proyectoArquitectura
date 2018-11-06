@@ -62,12 +62,10 @@ getData() {
    */
   actualizarSaldo() {
 
-    console.log("saldo_nuevo", this.saldo_nuevo);
-
     if(this.saldo_nuevo > 0) {
 
       this.usuario.saldoanterior = (this.usuario.saldo) ? this.usuario.saldo : 0;
-      this.usuario.saldo = (this.usuario.saldo) ? (this.usuario.saldo + this.saldo_nuevo) : this.saldo_nuevo;
+      this.usuario.saldo = (this.usuario.saldo) ? (parseFloat(this.usuario.saldo.toString()) + parseFloat(this.saldo_nuevo.toString())) : this.saldo_nuevo;
 
       this.userService.updateUser(this.usuario, this.keyDoc)
         .then(res => {

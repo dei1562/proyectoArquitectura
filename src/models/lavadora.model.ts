@@ -6,4 +6,5 @@ export class FirebaseLavadoraModel {
     industrial: boolean;
     precio: number;
     foto: string;
+    rele: number;
 }

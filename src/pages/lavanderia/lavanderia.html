@@ -26,6 +26,7 @@
             <p *ngIf="lavadora.payload.doc.data().estado === false">Estado: Inactivo</p>
             <p *ngIf="lavadora.payload.doc.data().industrial === true">Industrial: Si</p>
             <p *ngIf="lavadora.payload.doc.data().industrial === false">Industrial: No</p>
+            <p>Rele No. {{lavadora.payload.doc.data().rele}}</p>
         </ion-item>
     </ion-list>
 
