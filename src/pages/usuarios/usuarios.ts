@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ModalController, LoadingController, Loading } from 'ionic-angular';
+import { App, NavController, NavParams, ToastController, ModalController, LoadingController, Loading } from 'ionic-angular';
 
 import { UsuariosFormModalPage } from '../usuarios-form-modal/usuarios-form-modal';
 
@@ -25,7 +25,8 @@ export class UsuariosPage {
     private loadingCtrl: LoadingController,
     private modalCtrl: ModalController, 
     public authService: AuthService,
-    public userService: UserService,) {
+    public userService: UserService,
+    private app: App,) {
   }
 
   ionViewDidLoad() {
@@ -87,7 +88,7 @@ export class UsuariosPage {
   cerrarSession() {
     this.authService.doLogout()
     .then(res => {
-      this.navCtrl.push(LoginPage);
+      this.app.getRootNavs()[0].setRoot(LoginPage);
     }, err => {
     });
   }  

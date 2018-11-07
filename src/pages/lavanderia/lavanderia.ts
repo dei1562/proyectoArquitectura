@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+import { App, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 
 import { LavadoraFormPage } from '../lavadora-form/lavadora-form';
 
@@ -20,7 +20,7 @@ export class LavanderiaPage {
   pushPage = LavadoraFormPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController,
-              private lavadoraProvider: LavadoraProvider, public authService: AuthService) {    
+              private lavadoraProvider: LavadoraProvider, public authService: AuthService, private app: App) {    
   }
 
   ionViewDidLoad() {
@@ -51,7 +51,7 @@ export class LavanderiaPage {
   cerrarSession() {
     this.authService.doLogout()
     .then(res => {
-      this.navCtrl.push(LoginPage);
+      this.app.getRootNavs()[0].setRoot(LoginPage);
     }, err => {
     });
   }

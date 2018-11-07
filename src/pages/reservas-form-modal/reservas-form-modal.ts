@@ -202,7 +202,7 @@ export class ReservasFormModalPage {
                 let costoReserva = tiempoReserva * this.reserva.precio;
 
                 if(costoReserva > this.userService.getEUser()[0].payload.doc.data().saldo) {
-                  this.presentToast("No cuenta con el saldo suficiente para crear esta reserva.", true);
+                  this.presentToast("No cuenta con el saldo suficiente para crear esta reserva, el valor de la reserva es "+costoReserva, true);
                   return false;
                 }
 

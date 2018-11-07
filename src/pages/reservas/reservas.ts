@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ModalController, LoadingController, Loading } from 'ionic-angular';
+import { App, NavController, NavParams, ToastController, ModalController, LoadingController, Loading } from 'ionic-angular';
 
 import { ReservasFormModalPage } from '../reservas-form-modal/reservas-form-modal';
 import { UsuarioModalPage } from '../usuario-modal/usuario-modal';
@@ -33,7 +33,8 @@ export class ReservasPage {
     private reservasProvider: ReservasProvider,    
     private modalCtrl: ModalController, 
     public authService: AuthService,
-    public userService: UserService,) {
+    public userService: UserService, 
+    private app: App,) {
 
       this.userService.getExtraInfoUser()
       .then(usuario => {
@@ -66,7 +67,6 @@ export class ReservasPage {
 
       this.reservasProvider.getReservasAdministrador()
       .then(reservas => {
-        console.log("reservas", reservas);
         this.listReservas = reservas;
   
         loading.dismiss();
@@ -125,7 +125,13 @@ export class ReservasPage {
   cerrarSession() {
     this.authService.doLogout()
     .then(res => {
-      this.navCtrl.push(LoginPage);
+      if(this.flagAdministrador === true) {
+
+        this.app.getRootNavs()[0].setRoot(LoginPage);
+      } else {
+
+        this.navCtrl.push(LoginPage);
+      }
     }, err => {
     });
   }
@@ -201,6 +207,17 @@ export class ReservasPage {
     });
   
     toast.present();
+  }
+  /**
+   * Calcula el valor total de la reserva segun el precio por hora
+   * @param value 
+   */
+  getTotalReserva(value) {
+
+    let tiempoReserva =  parseInt(value.hora_fin.slice(0,2)) - parseInt(value.hora_inicio.slice(0,2));
+    let totalReserva = value.precio * tiempoReserva;
+
+    return totalReserva;
   }
 
 }
