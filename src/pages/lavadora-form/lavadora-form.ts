@@ -223,7 +223,10 @@ export class LavadoraFormPage {
   /**
    * Presenta en pantalla un cuadro de dialogo donde le solicita al usuario confirmacion para eliminar el registro
    */
-  confirmEliminar() {
+  confirmEliminar(event) {
+
+    event.stopPropagation();
+    
     this.flagEliminar = true;
 
     let alert = this.alertCtrl.create({
@@ -251,7 +254,10 @@ export class LavadoraFormPage {
   /**
    * Abre en pantalla la pantalla para seleccionar la imagen
    */
-  openImagePicker(){
+  openImagePicker(event){
+
+    event.stopPropagation();
+
     this.imagePicker.hasReadPermission().then(
       (result) => {
         if(result == false){

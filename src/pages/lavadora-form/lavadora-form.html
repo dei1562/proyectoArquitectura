@@ -94,7 +94,7 @@
             </ion-row>
             <ion-row no-padding class="user-image-row">
               <ion-col no-padding width-60>
-                <button class="image-action-button" ion-button outline block small (click)="openImagePicker()">Cambiar Imagen</button>
+                <button class="image-action-button" ion-button outline block small (click)="openImagePicker($event)">Cambiar Imagen</button>
               </ion-col>
             </ion-row>
         </div>
@@ -106,7 +106,7 @@
     
         <button ion-button full type="submit" *ngIf="flagButton === false" [disabled]="!validationForm.valid">Guardar</button>
         <button ion-button full type="submit" *ngIf="flagButton === true" [disabled]="!validationForm.valid">Actualizar</button>
-        <button ion-button full color="danger" (click)="confirmEliminar()" *ngIf="flagButton === true">Eliminar</button>
+        <button ion-button full color="danger" (click)="confirmEliminar($event)" *ngIf="flagButton === true">Eliminar</button>
     </form>
 
 </ion-content>
