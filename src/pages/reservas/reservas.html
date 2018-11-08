@@ -27,14 +27,14 @@
             <p>Hora Inicio: {{reserva.hora_inicio}}</p>
             <p>Hora Fin: {{reserva.hora_fin}}</p>
             <p>Valor Hora: {{reserva.precio | currency}}</p>
-            <p>Total Reserva: {{getTotalReserva(reserva) | currency}}</p>
+            <p>Total Reserva: {{reserva.valor | currency}}</p>
             <p *ngIf="reserva.confirmado == 'P'">Estado: Pendiente</p>
             <p *ngIf="reserva.confirmado == 'C'">Estado: Cancelada</p>
             <p *ngIf="reserva.confirmado == 'A'">Estado: Confirmada</p>
             <p *ngIf="reserva.confirmado == 'T'">Estado: Terminada</p>
 
-            <button ion-button item-end (click)="confirmar($event, reserva)" *ngIf="ocultarBoton(reserva)">Confirmar</button>
-            <button ion-button item-end color="danger" (click)="cancelar($event, reserva)" *ngIf="ocultarBoton(reserva)">Cancelar</button>
+            <button ion-button (click)="confirmar($event, reserva)" *ngIf="ocultarBoton(reserva)">Confirmar</button>
+            <button ion-button color="danger" (click)="cancelar($event, reserva)" *ngIf="ocultarBoton(reserva)">Cancelar</button>
         </ion-item>
     </ion-list>
 

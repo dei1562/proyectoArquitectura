@@ -270,7 +270,7 @@ export class LavadoraFormPage {
           }).then(
             (results) => {
               for (var i = 0; i < results.length; i++) {
-                this.uploadImageToFirebase(results[i]);
+                this.uploadImageToFirebase(results[i], event);
               }
             }, (err) => console.log(err)
           );
@@ -284,7 +284,10 @@ export class LavadoraFormPage {
    * Accion para cargar la imagen a firebase
    * @param image 
    */
-  uploadImageToFirebase(image){
+  uploadImageToFirebase(image, event){
+
+    event.stopPropagation();
+
     let loadingImg = this.loadingCtrl.create();
 
     loadingImg.present();

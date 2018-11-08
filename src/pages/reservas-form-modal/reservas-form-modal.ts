@@ -206,6 +206,8 @@ export class ReservasFormModalPage {
                   return false;
                 }
 
+                this.reserva.valor = costoReserva;
+
                 /**
                  * Si la lavadora esta disponible se procede a crear la reserva si la bandera flagButton es falsa, de lo contrario se actualiza
                  */
