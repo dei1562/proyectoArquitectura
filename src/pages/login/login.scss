@@ -31,4 +31,11 @@ page-login {
     @include call-to-action-button-styles(color($colors, google, base), color($colors, google, contrast));
   }
 
+  .logo{
+    height: 30vh;
+    width: 30vh;
+    margin: auto;
+    display: block;
+  }
+
 }

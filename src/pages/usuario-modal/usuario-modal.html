@@ -23,7 +23,9 @@
       <p>
         Saldo actual: {{ usuario.saldo | currency }}
       </p>
-      <ion-item>
+      <br>
+      <br>
+      <ion-item class="form-content">
         <ion-label>Valor a recargar:</ion-label>
         <ion-input type="number" [(ngModel)]="saldo_nuevo" name="saldoNuevo"></ion-input>
       </ion-item>

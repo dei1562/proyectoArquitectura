@@ -10,6 +10,8 @@ import { FirebaseUserModel } from './user.model';
 import { environment } from '../../environment/environment';
 import { UserService } from '../core/user.service';
 
+import { FcmProvider } from '../../providers/fcm/fcm';
+
 @Injectable()
 export class AuthService {
 
@@ -19,7 +21,8 @@ export class AuthService {
     public googlePlus: GooglePlus,
     public tw : TwitterConnect,
     public platform: Platform,
-    public userService: UserService
+    public userService: UserService, 
+    private fcm: FcmProvider
   ){}
 
   doRegister(value){
@@ -35,6 +38,9 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().signInWithEmailAndPassword(value.email, value.password)
       .then(res => {
+
+        // Get a FCM token
+        this.fcm.getToken();
 
         this.userService.userExists();
         resolve(res);
@@ -65,6 +71,10 @@ export class AuthService {
           const googleCredential = firebase.auth.GoogleAuthProvider.credential(response.idToken);
           firebase.auth().signInWithCredential(googleCredential)
           .then((user) => {
+
+            // Get a FCM token
+            this.fcm.getToken();
+
             this.userService.userExists();
             resolve();
           });
@@ -94,6 +104,9 @@ export class AuthService {
           firebase.auth().signInWithCredential(facebookCredential)
             .then(user => {
 
+              // Get a FCM token
+              this.fcm.getToken();
+
               this.userService.userExists();
               resolve();
             });
@@ -111,6 +124,9 @@ export class AuthService {
             displayName: result.user.displayName,
             photoURL: bigImgUrl
           }).then(res => {
+            
+            // Get a FCM token
+            this.fcm.getToken();
 
             this.userService.userExists();
             resolve();
@@ -131,6 +147,10 @@ export class AuthService {
             firebase.auth().signInWithCredential(twitterCredential)
             .then(
               user => {
+
+                // Get a FCM token
+                this.fcm.getToken();
+
                 this.userService.userExists();
                 resolve()
               },
@@ -155,6 +175,9 @@ export class AuthService {
             displayName: result.user.displayName,
             photoURL: bigImgUrl
           }).then(res => {
+
+            // Get a FCM token
+            this.fcm.getToken();
 
             this.userService.userExists();
             resolve();

@@ -64,15 +64,25 @@ getData() {
 
     if(this.saldo_nuevo > 0) {
 
+      let loading = this.loadingCtrl.create({
+        content: 'Por favor espere...'
+      });
+
+      loading.present();
+
       this.usuario.saldoanterior = (this.usuario.saldo) ? this.usuario.saldo : 0;
       this.usuario.saldo = (this.usuario.saldo) ? (parseFloat(this.usuario.saldo.toString()) + parseFloat(this.saldo_nuevo.toString())) : this.saldo_nuevo;
 
       this.userService.updateUser(this.usuario, this.keyDoc)
         .then(res => {
 
+          loading.dismiss();
+
           this.saldo_nuevo = null;
           this.presentToast("Saldo actualizado correctamente.");
         }, err => {
+
+          loading.dismiss();
           this.presentToast(err.message, true);
         })
     }else{

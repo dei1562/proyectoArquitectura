@@ -205,8 +205,9 @@ export class ReservasFormModalPage {
                   this.presentToast("No cuenta con el saldo suficiente para crear esta reserva, el valor de la reserva es "+costoReserva, true);
                   return false;
                 }
-
+                console.log("costoReserva", costoReserva);
                 this.reserva.valor = costoReserva;
+                console.log("this.reserva.valor", this.reserva.valor);
 
                 /**
                  * Si la lavadora esta disponible se procede a crear la reserva si la bandera flagButton es falsa, de lo contrario se actualiza

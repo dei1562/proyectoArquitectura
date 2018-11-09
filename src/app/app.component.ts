@@ -22,10 +22,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
-      splashScreen.hide();
-
-      // Get a FCM token
-      fcm.getToken()
+      splashScreen.hide();      
 
       // Listen to incoming messages
       fcm.listenToNotifications().pipe(

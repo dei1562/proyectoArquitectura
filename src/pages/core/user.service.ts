@@ -88,7 +88,9 @@ export class UserService {
         "nombre": value.displayName,
         "email": value.email,
         "industrial": (value.industrial) ? value.industrial : false,
-        "administrador": (value.administrador) ? value.administrador : false
+        "administrador": (value.administrador) ? value.administrador : false,
+        "saldo": (value.saldo) ? value.saldo : 0,
+        "saldo_anterior": (value.saldo_anterior) ? value.saldo_anterior : 0,
       })
       .then(
         res => resolve(res),

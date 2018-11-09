@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content padding class="form-content">
+  <ion-img class="logo" src="./assets/imgs/logo.png"></ion-img>
   <form class="form" [formGroup]="loginForm" (ngSubmit)="tryLogin(loginForm.value)">
 
     <ion-item>
@@ -30,6 +31,6 @@
 
   </form>
   <button ion-button full type="submit" class="facebook-button" (click)="tryFacebookLogin()">Facebook Login</button>
-  <button ion-button full type="submit" class="twitter-button" (click)="tryTwitterLogin()">Twitter Login</button>
-  <button ion-button full type="submit" class="google-button"  (click)="tryGoogleLogin()">Google Login</button>
+  <!-- <button ion-button full type="submit" class="twitter-button" (click)="tryTwitterLogin()">Twitter Login</button>
+  <button ion-button full type="submit" class="google-button"  (click)="tryGoogleLogin()">Google Login</button> -->
 </ion-content>

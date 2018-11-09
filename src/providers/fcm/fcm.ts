@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firebase } from '@ionic-native/firebase';
 import { Platform } from 'ionic-angular';
 import { AngularFirestore } from 'angularfire2/firestore';
-
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class FcmProvider {
@@ -34,11 +34,13 @@ export class FcmProvider {
   private saveTokenToFirestore(token) {
     if (!token) return;
   
+    let currentUser = firebase.auth().currentUser;
+
     const devicesRef = this.afs.collection('devices')
   
     const docData = { 
       token,
-      userId: 'testUser',
+      userId: currentUser.uid,
     }
   
     return devicesRef.doc(token).set(docData)
