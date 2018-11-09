@@ -176,6 +176,14 @@ export class ReservasFormModalPage {
       let resultadoValidacion = this.validarHora(values);
 
       if(resultadoValidacion === true) {
+
+
+          let validarHoraReserva = true;
+          if(values.value.hora_inicio == this.reserva.hora_inicio || values.value.hora_fin == this.reserva.hora_fin) {
+            validarHoraReserva = false;
+          }
+
+          console.log("validarHoraReserva", validarHoraReserva);
     
           this.reserva.lavadora = values.value.lavadora;
           this.reserva.fecha_inicio = values.value.fecha_inicio;
@@ -191,7 +199,8 @@ export class ReservasFormModalPage {
           validarReserva.subscribe(value => {
     
             if(count === 0){
-              if(value.length > 0) {
+
+              if(value.length > 0 && validarHoraReserva === true) {
                 this.presentToast("La lavadora ya se encuentra reserva para el horario seleccionado.", true);
               }else{
 
@@ -205,9 +214,8 @@ export class ReservasFormModalPage {
                   this.presentToast("No cuenta con el saldo suficiente para crear esta reserva, el valor de la reserva es "+costoReserva, true);
                   return false;
                 }
-                console.log("costoReserva", costoReserva);
+
                 this.reserva.valor = costoReserva;
-                console.log("this.reserva.valor", this.reserva.valor);
 
                 /**
                  * Si la lavadora esta disponible se procede a crear la reserva si la bandera flagButton es falsa, de lo contrario se actualiza
@@ -308,6 +316,14 @@ export class ReservasFormModalPage {
      */
     if(horaInicio == horaFin) {
       this.presentToast("Las horas seleccionadas no pueden ser iguales.", true);
+      return false;
+    }
+
+    /*
+    Valida que la hora de inicio no sea mayor a la hora final
+    */
+    if(horaInicio > horaFin) {
+      this.presentToast("La hora de inicio no puede ser mayor a la hora fin.", true);
       return false;
     }
 
